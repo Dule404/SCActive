@@ -1,0 +1,236 @@
+@using System.Globalization
+@using System.Resources
+@model backend.Models.SearchModel.SearchModel
+@{
+   var rm = new ResourceManager(typeof(backend.Translations.search));
+}  
+<div class="searchContainer" id="searchVC">
+    <label for="search-bar">
+        <ion-icon class="searchLogo" name="search-outline"></ion-icon>
+    </label>
+    <input id="search-bar" class="searchText" type="text" placeholder="@rm.GetString("srch",CultureInfo.CurrentCulture)">
+</div>
+ 
+<div class="hide" style="
+        display: none;">
+    <label>@rm.GetString("searchitems",CultureInfo.CurrentCulture)</label>
+
+    <div class="searchPopup">
+        <div style="display: flex; flex-direction: column">
+            @rm.GetString("prod", CultureInfo.CurrentCulture)
+            <div class="prod">
+               
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column">
+         @rm.GetString("usrs", CultureInfo.CurrentCulture)
+            <div class="ppl">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="searchOverlay"></div>
+
+<style>
+   .searchContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+   
+   .searchContainer label {
+     position: absolute;
+     right: 20%;
+     height: 4.5rem;
+   }
+   
+   .searchLogo {
+     width: 2.5rem;
+     height: 2.5rem;
+     border: none;
+     padding: 1rem;
+     color: #1a1a1a;
+   }
+   
+   .searchText {
+     font-size: 1.6rem;
+     width: 60%;
+     background: #ededed;
+     border: none;
+     border-radius: 15px;
+     padding: 1rem 2rem;
+   
+     transition: outline 0.02s;
+   }
+   
+   .searchText:focus {
+     outline: 2px solid #2b787e;
+     outline-style: inset;
+   }
+
+    .searchOverlay {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background-color: rgba(255, 254, 252, 0.5);
+    }
+    .searchPopup {
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 25%;
+        z-index: 9999999;
+        max-width: 600px;
+        padding: 30px;
+        margin: auto;
+        background-color: #fff;
+        border-radius: 30px;
+        height: 300px;
+        overflow-y: scroll;
+        justify-content: space-around;
+    }
+    .prod{
+     display: flex;
+     flex-direction: column;
+    }
+    .ppl{
+    display: flex;
+    flex-direction: column;
+    }
+    .response{
+    display: flex;
+    flex-direction: column;
+    }
+    .searchPic{
+    width: 10rem;
+    height: 10rem;
+    }
+
+</style>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script>
+    let toggleSearch = document.querySelector('.searchLogo');
+    let searchOverlay = document.querySelector('.searchOverlay');
+    let searchPopup = document.querySelector('.searchPopup');
+    let ppl = document.querySelector('.ppl');
+    let prod = document.querySelector('.prod');
+    let hide = document.querySelector('.hide');
+    searchOverlay.addEventListener("click", () => {
+        searchOverlay.style.display = 'none';
+        searchPopup.style.display = 'none';
+        hide.style.display = 'none';
+    });
+    toggleSearch.addEventListener('click',()=>{
+         searchOverlay.style.display = 'flex';
+         searchPopup.style.display = 'flex';
+          hide.style.display = 'flex';
+    })
+    const input = document.getElementById('search-bar');
+    let timer;
+    let searchString = "";
+
+    async function searchDB(textToSearch) {
+        await fetch(` https://localhost:5001/Search/SearchThing/${textToSearch}`, {
+            method: 'GET'
+        }).then(async response => {
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log(responseData);
+                const data = { rd: responseData.list };
+                showResponseData(data);
+            }
+        });
+    }
+            async function GoToPageUser(id,culture) {
+                        	await fetch(`https://localhost:5001/Home/GoToPage/${id}`,{
+                                method: 'GET'
+                        	}).then(async res => {
+                                if (res.ok)
+                                    {
+                                        res.json().then(data=>{
+                                           window.location = data.resp;
+                                        });
+                                    }
+                        	});
+                        }
+   async function GoToPageProduct(id,culture) {
+                         	await fetch(`https://localhost:5001/Home/GoToPageProduct/${id}`,{
+                                 method: 'GET'
+                         	}).then(async res => {
+                                 if (res.ok)
+                                     {
+                                         res.json().then(data=>{
+                                            window.location = data.resp;
+                                         });
+                                     }
+                         	});
+                         }                       
+    function showResponseData(data) {
+        data.rd.forEach(Element => {
+            const responseElement = document.createElement('div');
+           responseElement.style.cursor='pointer';
+           responseElement.classList.add('response');
+           if (Element.image == null)
+               {
+            responseElement.innerHTML = `
+                <input type="hidden" class="responseID" value="${Element.id}" />
+                <img class="searchPic" src="/Resources/profileNoimage.png"/>
+                <div class="searchInfo">
+                    <h2>${Element.title}</h2>
+                     <p class="searchContent">${Element.content}</p>
+                </div>
+            `;
+            }
+           else
+               {
+                   responseElement.innerHTML = `
+                                   <input type="hidden" class="responseID" value="${Element.id}" />
+                                   <img class="searchPic" src="${Element.image}"/>
+                                   <div class="searchInfo">
+                                       <h2>${Element.title}</h2>
+                                        <p class="searchContent">${Element.content}</p>
+                                   </div>
+                               `;
+               }
+            if (Element.type == 0)
+                {
+                  responseElement.addEventListener('click',()=>{
+                   GoToPageUser(Element.id);
+                   });
+                ppl.appendChild(responseElement);
+                }
+            else
+                {
+                    responseElement.addEventListener('click',()=>{
+                                       GoToPageProduct(Element.id);
+                                       });
+                prod.appendChild(responseElement);
+                }
+        });
+        searchOverlay.style.display = 'flex';
+        searchPopup.style.display = 'flex';
+        hide.style.display = 'flex';
+    }
+
+    input.addEventListener("keyup", () => {
+        ppl.innerHTML ="";
+        prod.innerHTML ="";
+        clearTimeout(timer);
+        searchString = input.value;
+        timer = setTimeout(()=>{
+            searchDB(searchString);
+        }, 1000);
+    });
+
+
+</script>

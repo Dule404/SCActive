@@ -1,0 +1,359 @@
+﻿.mainContainer {
+  max-width: 144rem;
+  margin: 0 auto;
+  padding: 15rem 3.2rem;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  column-gap: 5rem;
+}
+
+.btn-dodaj {
+  font-family: inherit;
+  border: none;
+  background-color: #ddd;
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+
+  transition: all 0.3s;
+}
+
+.btn-dodaj:hover {
+  background-color: #cdcdcd;
+}
+
+.divLicniPodaciNaslov,
+.divAktivnePretplateNaslov,
+.divTeretanaNaslov,
+.divTrenerNaslov,
+.divSportNaslov,
+.divGlavniTrenerNaslov {
+  font-weight: bold;
+  font-size: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.divPodaci {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.divPodaci label {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-size: 16px;
+  padding-right: 10px;
+}
+
+.divLicniPodaciPrikaz,
+.divAktivnePretplatePrikaz,
+.divTeretana,
+.divTrener,
+.divSport,
+.divGlavniTrener {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.divLicniPodaciPrikaz > div,
+.divAktivnePretplatePrikaz > div,
+.divTeretana > div,
+.divTrener > div,
+.divSport > div,
+.divGlavniTrener > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.divLicniPodaciLabele,
+.divPretplatePodaci,
+.divTrenerLicniPodaci,
+.divGlavniTrenerLabele {
+  font-weight: 600;
+}
+
+.divLicniPodaciPrikaz > div > label {
+  min-width: 130px;
+}
+
+.divKorisnikSlika > img {
+  width: 18rem;
+  height: auto;
+  border-radius: 10px;
+}
+
+.divDrugi {
+  min-width: 300px;
+}
+
+.divTreci {
+  display: flex;
+  flex-direction: column;
+  order: 2;
+  height: 100%;
+  width: 30%;
+  align-self: flex-start;
+  /*border: 1px solid rgba(196, 196, 196, 0.5);*/
+
+  min-width: 200px;
+  min-height: 150px;
+}
+
+.forma {
+  margin-right: auto;
+}
+
+.textMob {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.textMob:hover {
+  background-color: #444;
+}
+
+.btnEdit {
+  background-color: rgb(20, 173, 58);
+  padding: 1rem 2rem;
+  font-weight: 500;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  font-size: 1.4rem;
+
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btnEdit:hover {
+  background-color: rgb(25, 199, 63);
+}
+
+input {
+  min-width: 20px;
+}
+
+#phone {
+  color: #868686;
+}
+
+button,
+input {
+  font-family: "Poppins", sans-serif;
+}
+
+.btnRegistracija {
+  background: #1a1a1a;
+  border-radius: 8px;
+  color: #ededed;
+  font-size: large;
+  padding: 5px 25px 5px 25px;
+  font-weight: 600;
+}
+
+.polja {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  row-gap: 1em;
+  width: 90%;
+}
+
+.fullName {
+  display: flex;
+  flex-direction: row;
+  flex: 0 1 auto;
+  row-gap: 1em;
+  column-gap: 1em;
+  flex-wrap: wrap;
+}
+
+.btnGoogle {
+  min-width: 10px;
+  background: #4c7de8;
+  border-radius: 8px;
+  color: #ededed;
+  text-align: center;
+  font-size: large;
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 13px;
+  font-weight: 600;
+}
+
+input {
+  border: none;
+  padding: 5px;
+  background-color: #ededed;
+  border-radius: 8px;
+  font-size: large;
+  height: 30px;
+}
+
+.solid {
+  text-align: start;
+  padding-left: 10px;
+}
+
+.imgGlg {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.solid {
+  color: #a39f9f;
+}
+
+.textShow {
+  display: none;
+}
+
+.textShow > div {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.kategorija select {
+  border: none;
+  min-width: 100px;
+  background: #ededed;
+  border-radius: 8px;
+  font-size: large;
+  height: 40px;
+}
+
+.kategorija {
+  width: 100%;
+}
+
+.pointerEvent {
+  pointer-events: none;
+}
+
+#poljeIme,
+#poljePrezime,
+#poljeEmail,
+#poljeSifra,
+#poljeDTRodjenja {
+  color: black;
+}
+
+@media only screen and (max-width: 1335px) {
+  .linija1 {
+    left: 160px;
+    top: 500px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 820px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .linija1 {
+    left: 160px;
+    top: 490px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 810px;
+  }
+
+  .divSportGlavniTrener {
+    padding-top: 25px;
+  }
+}
+
+@media only screen and (max-width: 790px) {
+  .mainContainer {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    row-gap: 5rem;
+  }
+
+  .linija1 {
+    left: 160px;
+    top: 530px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 890px;
+  }
+}
+
+@media only screen and (max-width: 646px) {
+  .linija1 {
+    left: 160px;
+    top: 760px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 1110px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .mainContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .divPrvi {
+    order: 1;
+  }
+
+  .divDrugi {
+    order: 3;
+    padding-top: 20px;
+  }
+
+  .divTreci {
+    order: 2;
+    width: 70%;
+  }
+
+  .mainContainer {
+    flex-wrap: wrap;
+  }
+
+  .linija1 {
+    position: absolute;
+    width: 85%;
+    height: 0;
+    left: 30px;
+    top: 680px;
+    border: 1px solid rgba(196, 196, 196, 0.5);
+  }
+
+  .linija2 {
+    position: absolute;
+    width: 85%;
+    height: 0;
+    left: 30px;
+    top: 1015px;
+    border: 1px solid rgba(196, 196, 196, 0.5);
+  }
+
+  .divKalendarNaslov {
+    font-weight: bold;
+    font-size: 22px;
+    width: 250px;
+  }
+}

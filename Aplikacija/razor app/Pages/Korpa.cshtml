@@ -1,0 +1,179 @@
+@page
+@using System.Resources
+@using backend.Enums
+@using Microsoft.AspNetCore.Localization
+@using backend.Services.Interfaces;
+@using Microsoft.AspNetCore.Http;
+@using backend.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject ISessionDataService _sessionDataService
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ITranslatorService _translatorService
+@model backend.Pages.Korpa
+
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.korpa));
+    var rm1 = new ResourceManager(typeof(backend.Translations.registracija));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+
+    int index = 0;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/korpa.css">
+}
+
+<div class="mainContainer ">
+
+
+    <form class="forma" method="post">
+        @Html.AntiForgeryToken()
+        <div class="popup">
+        </div>
+        <div class="overlay"></div>
+        <div class="naplata">
+            <h3 class="mainNaslov">@rm.GetString("h2detalji", culture)</h3>
+            <div class="polja">
+                <div class="left">
+                    <section class="name">
+                        <input name="ime" type="text" placeholder="@rm1.GetString("ime",culture)*" id="ime" value="@user.Ime">
+                        <input name="prezime" type="text" placeholder="@rm1.GetString("prezime",culture)*" id="prezime" value="@user.Prezime">
+                    </section>
+                    <section class="ulica">
+                        <input name="ulica" type="text" placeholder="@rm.GetString("phadresa",culture)*" id="ulica">
+                    </section>
+                    <section class="adresa">
+                        <input name="grad" type="text" placeholder="@rm.GetString("phgrad",culture)*" id="grad">
+                        <input name="pbroj" type="text" placeholder="@rm.GetString("phpostbroj",culture)*" id="posBroj">
+                    </section>
+                    <section class="kontakt">
+                        <input name="brTelefona" type="text" placeholder="@rm1.GetString("telefon",culture)*" id="brTelefona">
+                        <input type="text" placeholder="@rm1.GetString("email",culture)" id="email" value="@user.Email">
+                    </section>
+                </div>
+                <div class="right">
+                    <textarea name="napomena" placeholder="@rm.GetString("phnapomena",culture)"></textarea>
+                </div>
+            </div>
+            <p class="note">*@rm.GetString("lbl*", culture)</p>
+        </div>
+    </form>
+    <div class="korpa">
+        <div class="naslovi">
+            <h3 class="mainNaslov">@rm.GetString("h1naslov", culture)</h3>
+            <div class="kolone">
+                <p class="kolona">@rm.GetString("lblnaziv", culture)</p>
+                <p class="kolona">@rm.GetString("lblcena", culture)</p>
+                <p class="kolona">@rm.GetString("lblkol", culture)</p>
+                <p class="kolona">@rm.GetString("lblukupno", culture)</p>
+            </div>
+        </div>
+        <div>
+            <hr>
+            <div class="proizvodi">
+                @foreach (int kolicina in user.UkupnaKolicina)
+                {
+                    <p style="display:none" class="MaxKolicina">@kolicina</p>
+                }
+                @foreach (Proizvod p in user.Korpa)
+                {
+                    //if (culture.Name == "sr")
+                    //{
+                    //p.Cena = (Int32.Parse(p.Cena) * 120).ToString();
+                    //p.Ime = _translatorService.Prevedi(p.Ime).Result;
+                    //p.Opis = _translatorService.Prevedi(p.Opis).Result;
+                    //}
+                    <div class="mainDivProizvod">
+                        <form method="post">
+                            <button asp-page-handler="RemoveFromCart" asp-route-index="@index" class="closeBtn">x</button>
+                        </form>
+                        <div class="infoDivProizvod">
+                            <p class="naziv">@p.Ime - @p.Velicina</p>
+                            <p class="cena">@p.Cena</p>
+                            <div class="complexBtn">
+                                <p class="decrease">-</p>
+                                <p class="quan">@p.Kolicina</p>
+                                <p class="increase">+</p>
+                            </div>
+                            <p class="ukupno"></p>
+                        </div>
+                    </div>
+                    index++;
+                }
+            </div>
+            <hr>
+        </div>
+        <div class="placanje">
+            <section class="text">
+                <div class="UkupnaCena">@rm.GetString("lblukupnacena", culture) </div>
+                <div class="cenaNum"></div>
+            </section>
+            <button type="button" class="plati">@rm.GetString("btnporuci", culture)</button>
+            <button type="button" class="poruci">@rm.GetString("btnText", culture)</button>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts
+{
+    <script type="module" src="~/Scripts/korpa.js"></script>
+    <script>
+        let ukupnaKolicina = document.querySelectorAll('.MaxKolicina');
+        let ukupnaCena = 0;
+        let divUkupnaCena = document.querySelector('.cenaNum');
+
+        let close = document.querySelectorAll('.closeBtn');
+        let inc = document.querySelectorAll('.increase');
+        let dec = document.querySelectorAll('.decrease');
+        let ukupno = document.querySelectorAll('.ukupno');
+        let cena = document.querySelectorAll('.cena');
+        let quanText = document.querySelectorAll('.quan');
+        let pro = document.querySelector('.proizvodi');
+
+        ukupno.forEach((u, index) => {
+            u.innerText = parseFloat(quanText[index].innerText) * parseFloat(cena[index].innerText) + " €";
+        });
+
+        ukupno.forEach(u => {
+            ukupnaCena += parseFloat(u.innerText);
+        });
+        divUkupnaCena.innerText = ukupnaCena + " €";
+
+        inc.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                let num = parseInt(quanText[index].innerText);
+                if (num < ukupnaKolicina[index].innerText) {
+                    num++;
+                    quanText[index].innerText = num;
+                    ukupno[index].innerText = parseFloat(quanText[index].innerText) * parseFloat(cena[index].innerText) + " €";
+                    ukupnaCena += parseFloat(cena[index].innerText);
+                    divUkupnaCena.innerText = ukupnaCena + " €";
+                }
+            });
+        });
+        dec.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                let num = parseInt(quanText[index].innerText);
+                if (num > 1) {
+                    num--;
+                    quanText[index].innerText = num;
+                    ukupno[index].innerText = parseFloat(quanText[index].innerText) * parseFloat(cena[index].innerText) + " €";
+                    ukupnaCena -= parseFloat(cena[index].innerText);
+                    divUkupnaCena.innerText = ukupnaCena + " €";
+                }
+            });
+        });
+    </script>
+}

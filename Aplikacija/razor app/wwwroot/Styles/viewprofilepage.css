@@ -1,0 +1,102 @@
+﻿.mainContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 144rem;
+    margin: 0 auto;
+    column-gap: 30px;
+    height: 100vh;
+    padding: 9rem 3.2rem;
+}
+
+.slika-podaci {
+    display: flex;
+    flex-direction:column;
+    grid-template-columns: auto 1fr;
+    column-gap: 5rem;
+}
+
+.divPrvi, .divDrugi, .divTreci {
+    padding-top: 50px;
+}
+
+.divLicniPodaciNaslov,
+.divAktivnePretplateNaslov,
+.divTeretanaNaslov,
+.divTrenerNaslov,
+.divSportNaslov,
+.divGlavniTrenerNaslov {
+    font-weight: bold;
+    font-size: 32px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.btnRegistracija{
+    display: inline-block;
+    border: none;
+    font-family: inherit;
+    font-size: 1.6rem;
+    background-color: #1a1a1a;
+    border-radius: 1rem;
+    color: white;
+    padding: 0.8rem 1.6rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.divPodaci {
+    display: flex;
+    flex-direction: column;
+}
+
+.divPodaci label {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    font-size: 16px;
+    padding-right: 10px;
+}
+
+.divLicniPodaciPrikaz,
+.divAktivnePretplatePrikaz,
+.divTeretana,
+.divTrener,
+.divSport,
+.divGlavniTrener {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.divLicniPodaciPrikaz > div,
+.divAktivnePretplatePrikaz > div,
+.divTeretana > div,
+.divTrener > div,
+.divSport > div,
+.divGlavniTrener > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.divLicniPodaciLabele,
+.divPretplatePodaci,
+.divTrenerLicniPodaci,
+.divGlavniTrenerLabele {
+    font-weight: 600;
+}
+
+.divLicniPodaciPrikaz > div > label {
+    min-width: 130px;
+}
+
+.divKorisnikSlika > img {
+    width: 180px;
+    height: 150px;
+    left: 240px;
+    top: 173px;
+    border-radius: 20px;
+}
+@media (max-width: 900px) {
+    .mainContainer{
+        flex-wrap: wrap;
+    }
+}

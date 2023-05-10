@@ -1,0 +1,166 @@
+@page
+@model backend.Pages.Registracija
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.registracija));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+
+}
+
+@section Styles
+{
+
+    <link rel="stylesheet" href="Styles/registracija.css">
+    <link rel="stylesheet" href="Styles/floating.css">
+}
+
+<div class="mainContainer ">
+    <div class="form-image">
+
+    </div>
+    <form class="forma" method="post">
+        @Html.AntiForgeryToken()
+        <h1 class="textMob">@rm.GetString("btnReg", culture)</h1>
+        <div class="form-floating">
+            <input type="text" asp-for="Clan.Ime" placeholder="@rm.GetString("ime", culture)" id="floatingInput" class="form-control">
+            <span asp-validation-for="Clan.Ime" style="color: red"></span>
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("ime", culture)</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" asp-for="Clan.Prezime" placeholder="@rm.GetString("prezime", culture)" id="floatingInput" class="form-control">
+            <span asp-validation-for="Clan.Prezime" style="color: red"></span>
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("prezime", culture)</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" asp-for="Clan.Email" placeholder="@rm.GetString("email", culture)" id="floatingInput" class="form-control">
+            <span asp-validation-for="Clan.Email" style="color: red"></span>
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("email", culture)</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" asp-for="Clan.Lozinka" placeholder="@rm.GetString("lozinka", culture)" id="floatingPassword" class="form-control">
+            <span asp-validation-for="Clan.Lozinka" style="color: red; max-width: 270px"></span>
+            <label style="font-size: 1.6rem;" for="floatingPassword">@rm.GetString("lozinka", culture)</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="tel" id="floatingInput" class="phone form-control" placeholder="@rm.GetString("telefon", culture)" asp-for="Clan.Telefon">
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("telefon", culture)</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="date" style="padding-bottom: 2.625rem;" asp-for="Clan.DatumRodjenja" min="1925-01-01" max="@DateTime.Now.ToShortDateString()" id="floatingInput" class="form-control">
+            <span asp-validation-for="Clan.DatumRodjenja" style="color: red"></span>
+            <label style="font-size: 1.6rem; padding-bottom: 2.625rem;" for="floatingInput">@rm.GetString("datum", culture)</label>
+        </div>
+        <div class="form-floating">
+            <select class="form-select sela" id="floatingSelect" asp-for="UserType" style="background-color: #ededed;border-radius: 8px; font-size: 1.6rem">
+                <option>@rm.GetString("sel0", culture)</option>
+                <option>@rm.GetString("sel2", culture)</option>
+            </select>
+            <label style="font-size: 1.6rem;" for="floatingSelect">@rm.GetString("regkao", culture)</label>
+        </div>
+
+        <div class="smallForm form-floating" style="display: none">
+            <input type="text" asp-for="Sport.Ime" placeholder="@rm.GetString("lblsport", culture)" id="floatingInput" class="form-control">
+            <span asp-validation-for="Sport.Ime" style="color: red;"></span>
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("lblsport", culture)</label>
+        </div>
+        <div class="divRegistracija">
+            <button type="submit" class="btnRegistracija">@rm.GetString("btnReg", culture)</button>
+        </div>
+        <div class="no-acc--text">
+            <a href="Prijava?culture=@culture" class="nn">@rm.GetString("nalog", culture)</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        let sel = document.querySelector('.sela');
+        window.onload = () => {
+            if (sel.selectedIndex === 1 || sel.selectedIndex === 2) {
+                let sportSelDiv = document.querySelector('.smallForm');
+                sportSelDiv.style = "display:initial";
+            }
+            else {
+                let sportSelDiv = document.querySelector('.smallForm');
+                sportSelDiv.style = "display:none";
+            }
+        }
+        sel.addEventListener('change', () => {
+            if (sel.selectedIndex === 1 || sel.selectedIndex === 2) {
+                let sportSelDiv = document.querySelector('.smallForm');
+                sportSelDiv.style = "display:initial";
+            }
+            else {
+                let sportSelDiv = document.querySelector('.smallForm');
+                sportSelDiv.style = "display:none";
+            }
+        });
+
+        const isNumericInput = (event) => {
+            const key = event.keyCode;
+            return ((key >= 48 && key <= 57) || // Allow number line
+                (key >= 96 && key <= 105) // Allow number pad
+            );
+        };
+
+        const isModifierKey = (event) => {
+            const key = event.keyCode;
+            return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+                (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+                (key > 36 && key < 41) || // Allow left, up, right, down
+                (
+                    // Allow Ctrl/Command + A,C,V,X,Z
+                    (event.ctrlKey === true || event.metaKey === true) &&
+                    (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+                )
+        };
+
+        const enforceFormat = (event) => {
+            // Input must be of a valid number format or a modifier key, and not longer than ten digits
+            if (!isNumericInput(event) && !isModifierKey(event)) {
+                event.preventDefault();
+            }
+        };
+
+        const formatToPhone = (event) => {
+            if (isModifierKey(event)) { return; }
+
+            // I am lazy and don't like to type things more than once
+            const target = event.target;
+            const input = event.target.value.replace(/\D/g, '').substring(0, 15); // First ten digits of input only
+            const zip = input.substring(0, 3);
+            const middle = input.substring(3, 5);
+            const last = input.substring(5, 15);
+
+            if (input.length > 5) { target.value = `+(${zip}) ${middle} ${last}`; }
+            else if (input.length > 3) { target.value = `+(${zip}) ${middle}`; }
+            else if (input.length > 0) { target.value = `+(${zip}`; }
+        };
+
+        const inputElement = document.querySelector('.phone');
+        inputElement.addEventListener('keydown', enforceFormat);
+        inputElement.addEventListener('keyup', formatToPhone);
+
+    </script>
+}

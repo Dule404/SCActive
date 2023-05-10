@@ -1,0 +1,865 @@
+html {
+  font-size: 62.5%;
+}
+
+#pocetna {
+  font-weight: bold;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.prviDiv {
+  background-image: url("../Resources/mainFirst.png");
+  background-size: cover;
+
+  padding: 15rem 0 14rem 0;
+}
+
+.hero-container {
+  max-width: 144rem;
+  margin: 0 auto;
+  padding: 0 3.2rem;
+
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  column-gap: 6.4rem;
+}
+
+.notLoggedMessage {
+  /* text-align: center; */
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: white;
+  padding: 2rem 0;
+}
+
+.swiper-pagination > .swiper-pagination-bullet {
+  background: lightgrey;
+}
+
+.reciNe {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  color: white;
+
+  position: relative;
+}
+
+.h1ReciNe {
+  font-size: 8rem;
+  margin: 0;
+  font-weight: 600;
+  padding-right: 16rem;
+  line-height: 1.2;
+}
+
+.ss {
+  inline-size: auto;
+}
+
+.pStyle {
+  font-weight: 300;
+  font-size: 2.5rem;
+  width: 70%;
+}
+
+.activeClanDiv {
+  margin-top: auto;
+  margin-left: auto;
+}
+
+.activeClan:link,
+.activeClan:visited {
+  backdrop-filter: blur(20px);
+  background: rgba(95, 245, 255, 0.14);
+  font-size: 3.2rem;
+  display: inline-block;
+  color: white;
+  font-weight: 500;
+  padding: 5.6rem 12rem;
+  border: none;
+  text-decoration: none;
+
+  transition: all 0.3s;
+}
+
+.activeClan:hover {
+  background-color: rgba(26, 26, 26, 0.151);
+  color: #5ff5ff;
+}
+
+.textBoxDiv {
+  background: rgba(0, 0, 0, 0.31);
+  backdrop-filter: blur(20px);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 300px;
+  flex-wrap: wrap;
+  align-self: center;
+
+  padding: 6.4rem 7.2rem;
+}
+
+/* POSTS */
+
+.dynamicsPic {
+  padding-bottom: 9rem;
+  padding-top: 5rem;
+
+  background-color: #091819;
+  background-image: linear-gradient(160deg, #091819 0%, #133133 100%);
+}
+
+.dynamics {
+  max-width: 144rem;
+  margin: 0 auto;
+  padding: 2.4rem 3.2rem;
+}
+
+.blogs {
+  max-width: 144rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  padding: 0 3.2rem 5rem 3.2rem;
+}
+
+.postSomething {
+  justify-self: baseline;
+  width: 100%;
+}
+
+.posts-form-textbox {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.blogPostUserPic {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  margin-top: 1rem;
+}
+
+blogPostuser {
+  display: flex;
+  margin: 1rem 2rem 0 0;
+}
+
+.posts-label,
+.blog-posts-heading {
+  font-size: 4rem;
+  font-weight: 700;
+  color: white;
+}
+
+.posts-text-area {
+  padding: 1.5rem;
+  font-size: 1.6rem;
+  border: none;
+  background: #eee;
+  border-radius: 8px;
+  margin-right: auto;
+  width: 100%;
+  height: 30rem;
+}
+
+.postBtn {
+  display: inline-block;
+  margin-right: auto;
+  border: none;
+  font-family: inherit;
+  font-size: 1.6rem;
+  padding: 1rem 3rem;
+  border-radius: 5px;
+
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.postBtn:hover,
+.postBtn:active {
+  background-color: #ddd;
+}
+
+.posts {
+  width: 100%;
+  margin-top: 1rem;
+  height: 35rem;
+  overflow: auto;
+}
+
+.personal-trainers-heading {
+  font-size: 3.2rem;
+  color: white;
+  padding-bottom: 1rem;
+}
+/* **************** */
+.p1 {
+  display: flex;
+  flex-direction: column;
+  font-weight: lighter;
+  font-size: 1.5rem;
+}
+
+.imgSmall {
+  width: 4rem;
+  height: 4rem;
+
+  transition: all 0.3s;
+
+  align-self: flex-end;
+}
+
+.imgSmall:hover {
+  transform: rotate(30deg);
+}
+#containerPost,
+#container {
+  overflow: auto;
+}
+
+.container::-webkit-scrollbar,
+.posts::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 20px;
+}
+
+.container::-webkit-scrollbar-track,
+.posts::-webkit-scrollbar-track {
+  background: #ededed;
+  border-radius: 30px;
+}
+
+.container::-webkit-scrollbar-thumb,
+.posts::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 30px;
+}
+
+.drugiDiv {
+  background-image: url("../Resources/oNama.png");
+  background-size: cover;
+
+  padding-top: 8rem;
+}
+
+/* O NAMA */
+
+.divOnama {
+  max-width: 144rem;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 3.2rem 9.6rem 3.2rem;
+}
+
+.slikeMedalje {
+  display: flex;
+  gap: 1rem;
+}
+
+.divOnamaSlike {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 144rem;
+  padding: 0 3.2rem;
+}
+
+.treciDiv {
+  background-image: url("../Resources/timelineBG.png");
+  background-repeat: no-repeat;
+  padding: 4.8rem 0 9.6rem;
+}
+
+.hrTimeline {
+  border: none;
+  border-bottom: 1px dashed black;
+}
+
+.hrTimeline:nth-child(1) {
+  width: 25%;
+}
+
+.hrTimeline:nth-child(2) {
+  width: 25%;
+}
+
+.hrTimeline:nth-child(3) {
+  width: 25%;
+}
+
+.hrTimeline:nth-child(4) {
+  width: 25%;
+}
+
+.hrTimeline:nth-child(5) {
+  width: 25%;
+}
+
+.hrTimeline:nth-child(6) {
+  width: 25%;
+}
+
+.hrTimeline:nth-child(7) {
+  width: 25%;
+}
+
+.hrTimeline:nth-child(8) {
+  width: 25%;
+}
+
+.lineHr {
+  align-items: center;
+  margin-top: 3em;
+  display: flex;
+  flex-direction: row;
+}
+
+.prviRed {
+  margin: 0 auto;
+  max-width: 110rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 3rem;
+}
+.loadingPost {
+  opacity: 0;
+  display: flex;
+  align-self: center;
+}
+.ballspost {
+  background-color: #777;
+  border-radius: 50%;
+  margin: 5px;
+  height: 10px;
+  width: 10px;
+  animation: jump 0.5s ease-in infinite;
+}
+
+.ballspost:nth-of-type(2) {
+  animation-delay: 0.1s;
+}
+
+.ballspost:nth-of-type(3) {
+  animation-delay: 0.2s;
+}
+
+textarea {
+  resize: vertical;
+}
+.loadingPost.show {
+  opacity: 1;
+}
+
+.drugiRed {
+  margin: 0 auto;
+  max-width: 110rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 3rem;
+}
+
+h4 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.timelineText,
+.godina {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.hrNew {
+  display: none;
+}
+
+.timeLine {
+  display: none;
+}
+
+/* GYM i SPORT */
+.cetvrtiDiv {
+  background-image: url("../Resources/sportbg.png");
+
+  color: white;
+  margin-bottom: -1px;
+  padding-top: 14.4rem;
+}
+
+.product-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 11rem;
+  padding: 0 3.2rem;
+}
+
+.product {
+  position: relative;
+  display: flex;
+}
+
+.sport-product {
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.sport-product .product--text-box {
+  left: 0;
+  right: 20%;
+}
+
+.img1,
+.img2 {
+  width: 75%;
+}
+
+.product--text-box {
+  background-color: rgb(26 26 26 / 0.3);
+  backdrop-filter: blur(20px);
+
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
+}
+
+.product--text-box h3 {
+  font-size: 4.8rem;
+  line-height: 1;
+  padding: 3rem 0 1.5rem 3rem;
+}
+
+.product-p {
+  font-size: 1.6rem;
+  padding: 0 3rem 3rem 3rem;
+}
+
+.btn--product:link,
+.btn--product:visited {
+  display: inline-block;
+
+  text-decoration: none;
+  color: white;
+  background-color: rgb(95 245 255 / 0.14);
+  font-size: 1.6rem;
+
+  padding: 1rem 1.8rem;
+  transition: all 0.3s;
+}
+
+.btn--product:hover,
+.btn--product:active {
+  background-color: rgb(26 26 26 / 0.14);
+  color: #5ff5ff;
+}
+
+/* MAIN PRODUCT */
+.drugiDeo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.2rem;
+
+  margin: 26rem 0;
+}
+
+.main-product-pre-heading {
+  font-size: 9.6rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.main-product-icon {
+  width: 26rem;
+}
+
+.only-elite-text {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2rem;
+}
+
+.veciImg {
+  width: 100%;
+  height: auto;
+}
+
+.hrSlike {
+  height: 85vh;
+  border: 1px dashed white;
+}
+
+.drugiDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tbPoz {
+  display: flex;
+  flex-direction: row;
+  flex: 0 1 300px;
+}
+
+/* MAIN PRODUCT */
+
+.treciDeo {
+  padding: 0 3.2rem 8rem 3.2rem;
+  position: relative;
+}
+
+.veciImg {
+  width: 50%;
+}
+
+.main-product--text-box {
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background-color: rgb(26 26 26 / 0.3);
+  backdrop-filter: blur(20px);
+}
+
+.main-product-heading-box {
+  position: relative;
+}
+
+.main-product-heading {
+  font-size: 9.6rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+
+  padding: 5rem 0 5rem 4rem;
+}
+
+.sport-plus {
+  font-size: 9.6rem;
+  font-weight: 700;
+  color: #5ff5ff;
+
+  position: absolute;
+  top: -1rem;
+  left: 28rem;
+}
+
+.main-product-p {
+  color: white;
+  font-size: 2.4rem;
+  width: 80%;
+  padding: 0 5rem 7rem 4rem;
+}
+
+.btn--main-product:link,
+.btn--main-product:visited {
+  text-decoration: none;
+  display: inline-block;
+  font-size: 3.2rem;
+  font-weight: 500;
+  color: white;
+
+  background-color: rgb(95 245 255 / 0.14);
+  padding: 3.6rem 13.2rem;
+  transition: all 0.3s;
+}
+
+.btn--main-product:hover,
+.btn--main-product:active {
+  background-color: rgb(26 26 26 / 0.3);
+  color: #5ff5ff;
+}
+
+/* BELOW 1366px */
+@media (max-width: 1366px) {
+  html {
+    font-size: 56.25%;
+  }
+
+  .prviDiv {
+    padding: 14rem 0 8rem 0;
+  }
+
+  .activeClan {
+    padding: 5rem 10rem;
+  }
+
+  .drugiDeo {
+    margin: 15rem 0;
+  }
+
+  .main-product-heading,
+  .sport-plus {
+    font-size: 8.4rem;
+  }
+
+  .sport-plus {
+    top: 0;
+    left: 25rem;
+  }
+
+  .main-product-p {
+    font-size: 2rem;
+  }
+
+  .btn--main-product {
+    padding: 3.2rem 8rem;
+  }
+}
+
+/* BELOW 1100px */
+@media (max-width: 1100px) {
+  .prviDiv {
+    padding: 14rem 0 8rem 0;
+  }
+
+  .activeClan {
+    padding: 3.2rem 6.4rem;
+  }
+
+  .activeClanDiv {
+    margin-top: 5rem;
+  }
+
+  .h1ReciNe {
+    padding-right: 0;
+    line-height: 1.1;
+  }
+
+  .textBoxDiv {
+    padding: 5rem 6rem;
+  }
+
+  .drugiDeo {
+    margin: 13rem 0;
+  }
+
+  .mainPrviRed {
+    padding: 4.8rem 3.2rem 9.6rem 3.2rem;
+  }
+}
+
+/* BELOW 950px */
+@media (max-width: 950px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .reciNe {
+    margin-bottom: 8rem;
+  }
+
+  .pStyle {
+    width: 100%;
+  }
+
+  .activeClanDiv {
+    margin: 0;
+  }
+
+  .textBoxDiv {
+    width: 70%;
+    padding: 4rem 5rem;
+  }
+
+  .divOnama {
+    gap: 3rem;
+  }
+
+  .product-container {
+    grid-template-columns: 1fr;
+    gap: 7rem;
+  }
+
+  .img1,
+  .img2 {
+    width: 50%;
+  }
+
+  .product--text-box {
+    right: 20%;
+  }
+
+  .sport-product .product--text-box {
+    left: 20%;
+  }
+
+  .veciImg {
+    width: 70%;
+  }
+
+  .main-product--text-box {
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 70%;
+  }
+
+  .main-product-p {
+    padding-right: 0;
+    width: 90%;
+  }
+}
+
+/* BELOW 790px */
+@media (max-width: 790px) {
+  .divOnamaSlike {
+    grid-template-columns: 1fr;
+  }
+  .main-product-heading {
+    font-size: 7.2rem;
+  }
+
+  .btn--main-product:link,
+  .btn--main-product:visited {
+    padding: 2.8rem 8rem;
+  }
+}
+
+/* BELOW 600px */
+@media (max-width: 600px) {
+  html {
+    font-size: 50%;
+  }
+
+  .reciNE {
+  }
+
+  .textBoxDiv {
+    width: 85%;
+    gap: 2rem;
+  }
+
+  .p1 {
+    gap: 1.5rem;
+  }
+
+  .sub-hero-heading {
+    font-size: 2.2rem;
+  }
+
+  .sub-hero-p {
+    font-size: 1.8rem;
+  }
+
+  .treciDiv {
+    padding-top: 0;
+  }
+
+  .lineHr {
+    display: none;
+  }
+
+  .mainPrviRed {
+    padding-bottom: 0;
+    padding-top: 4rem;
+  }
+
+  .prviRed,
+  .drugiRed {
+    grid-template-columns: 1fr;
+    row-gap: 3rem;
+  }
+
+  .medalje-img {
+    width: 10rem;
+  }
+
+  .main-product--text-box {
+    top: 40%;
+  }
+
+  .veciImg {
+    width: 80%;
+  }
+
+  .main-product-heading {
+    font-size: 6.4rem;
+    padding: 3rem 0 2rem 2rem;
+  }
+
+  .sport-plus {
+    font-size: 6.4rem;
+    left: 18rem;
+    top: -1rem;
+  }
+
+  .main-product-p {
+    font-size: 1.6rem;
+    padding: 0 4rem 3rem 2rem;
+  }
+
+  .btn--main-product:link,
+  .btn--product:visited {
+    padding: 2rem 4rem;
+    font-size: 2rem;
+  }
+}
+
+/* BELOW 450px */
+@media (max-width: 450px) {
+  .textBoxDiv {
+    width: 100%;
+  }
+
+  .h1ReciNe {
+    font-size: 6rem;
+  }
+
+  .medalje-img {
+    width: 8rem;
+  }
+
+  .treciDeo {
+    padding-bottom: 16rem;
+  }
+
+  .activeClan:link,
+  .activeClan:visited {
+    padding: 2.4rem 2.4rem;
+    font-size: 2.8rem;
+  }
+
+  .cetvrtiDiv {
+    padding-top: 5rem;
+  }
+
+  .img1,
+  .img2 {
+    width: 80%;
+  }
+
+  .veciImg {
+    width: 100%;
+  }
+
+  .product--text-box,
+  .sport-product .product--text-box {
+    right: 5%;
+    left: 5%;
+  }
+
+  .main-product--text-box {
+    top: 60%;
+    /* right: 5%; */
+    width: 80%;
+  }
+}

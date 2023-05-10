@@ -1,0 +1,197 @@
+.mainContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+
+  background-image: url("../Resources/regBg.png");
+  background-size: cover;
+  padding-top: 8.8rem;
+
+  height: 100vh;
+}
+
+.form-image {
+  background-image: url("../Resources/regSlika.png");
+  background-size: cover;
+  background-position: center center;
+}
+
+.forma {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+
+  padding: 0 40% 0 5%;
+}
+
+input {
+  min-width: 20px;
+}
+
+#phone {
+  color: #868686;
+}
+
+button,
+input {
+  font-family: "Poppins", sans-serif;
+}
+
+.btnRegistracija {
+  background: #1a1a1a;
+  border-radius: 8px;
+  color: #ededed;
+  font-size: large;
+  padding: 5px 25px 5px 25px;
+  font-weight: 600;
+}
+
+.polja {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  row-gap: 1em;
+  width: 90%;
+}
+
+.fullName {
+  display: flex;
+  flex-direction: row;
+  flex: 0 1 auto;
+  row-gap: 1em;
+  column-gap: 1em;
+  flex-wrap: wrap;
+}
+
+.btnGoogle {
+  min-width: 10px;
+  background: #4c7de8;
+  border-radius: 8px;
+  color: #ededed;
+  text-align: center;
+  font-size: large;
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 13px;
+  font-weight: 600;
+}
+
+.mainContainer input {
+  border: none;
+  padding: 5px;
+  background-color: #ededed;
+  border-radius: 8px;
+  font-size: large;
+  height: 30px;
+}
+
+.solid {
+  text-align: start;
+  padding-left: 10px;
+}
+
+.imgGlg {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.solid {
+  color: #a39f9f;
+}
+
+.textMob {
+  font-size: 3.2rem;
+}
+
+.kategorija select {
+  border: none;
+  min-width: 100px;
+  background: #ededed;
+  border-radius: 8px;
+  font-size: large;
+  height: 40px;
+}
+
+.kategorija {
+  width: 100%;
+}
+
+.pointerEvent {
+  pointer-events: none;
+}
+
+#poljeIme,
+#poljePrezime,
+#poljeEmail,
+#poljeSifra,
+#poljeDTRodjenja {
+  color: black;
+}
+
+.nn:link,
+.nn:visited {
+  font-size: 1.4rem;
+  color: #1a1a1a;
+}
+
+/* QUERRIES */
+@media (max-width: 1366px) {
+  .mainContainer {
+    padding-top: 8.72rem;
+  }
+}
+
+@media (max-width: 950px) {
+  .forma {
+    padding-right: 30%;
+  }
+}
+
+@media (max-width: 790px) {
+  .mainContainer {
+    padding-top: 6.86rem;
+  }
+
+  .forma {
+    padding-right: 20%;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainContainer {
+    grid-template-columns: 1fr;
+    height: 80vh;
+  }
+
+  .forma {
+    padding: 0 10% 0 10%;
+  }
+
+  .form-image {
+    display: none;
+  }
+
+  input {
+    width: 90%;
+    min-width: 26px;
+  }
+
+  button {
+    padding: 1px;
+    min-width: 0;
+  }
+
+  .btnRegistracija {
+    flex: 0 1 200px;
+  }
+
+  .textMob {
+    display: initial;
+    text-indent: 0;
+    font-size: 3.2rem;
+    font-weight: 700;
+  }
+}

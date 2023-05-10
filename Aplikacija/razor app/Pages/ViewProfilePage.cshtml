@@ -1,0 +1,327 @@
+@page
+@using System.Resources
+@using backend.Enums
+@using backend.Models
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model backend.Pages.ViewProfilePage
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_LayoutLogged";
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    var rm = new ResourceManager(typeof(backend.Translations.korisnik));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/viewprofilepage.css">
+    <style>
+        #containerPost {
+            overflow: auto;
+        }
+
+        .blog-posts-container {
+            width: 100%;
+        }
+
+        .posts-label, .blog-posts-heading {
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .posts {
+            width: 100%;
+            margin-top: 1rem;
+            height: 75vh;
+            overflow: auto;
+        }
+
+            .container::-webkit-scrollbar,
+            .posts::-webkit-scrollbar {
+                width: 10px;
+                border-radius: 20px;
+            }
+
+            .container::-webkit-scrollbar-track,
+            .posts::-webkit-scrollbar-track {
+                background: #ededed;
+                border-radius: 30px;
+            }
+
+            .container::-webkit-scrollbar-thumb,
+            .posts::-webkit-scrollbar-thumb {
+                background: #cccccc;
+                border-radius: 30px;
+            }
+
+        .loadingPost {
+            opacity: 0;
+            display: flex;
+            align-self: center;
+        }
+
+        .ballspost {
+            background-color: #777;
+            border-radius: 50%;
+            margin: 5px;
+            height: 10px;
+            width: 10px;
+            animation: jump 0.5s ease-in infinite;
+        }
+
+            .ballspost:nth-of-type(2) {
+                animation-delay: 0.1s;
+            }
+
+            .ballspost:nth-of-type(3) {
+                animation-delay: 0.2s;
+            }
+
+        .blog-post {
+            display: flex;
+            background-color: #fff;
+            box-shadow: 0px 1px 2px rgba(50, 50, 50, 0.1), 0px 2px 4px rgba(60, 60, 60, 0.1);
+            border-radius: 8px;
+            padding: 1rem 1rem 3rem 1rem;
+            margin-bottom: 2rem;
+            margin-right: 1rem;
+            width: 99.5%;
+        }
+
+        .blogPostUserPic {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 50%;
+            margin-top: 1rem;
+        }
+
+        .title {
+            margin: 0 0.5rem;
+            font-size: 2rem;
+        }
+    </style>
+}
+<div class="mainContainer">
+    @Html.AntiForgeryToken()
+    <div class="slika-podaci">
+
+        <div class="divPrvi">
+
+            <div class="divKorisnikSlika">
+                @if (string.IsNullOrEmpty(Model.Clan.Slika))
+                {
+                    <img src="Resources/korisnikProfilSlika.png" alt="Profil slika">
+                }
+                else
+                {
+                    <img src="@Model.Clan.Slika" alt="Profil slika">
+                }
+                @*<img src="@Model.Slika" alt="Profil slika">*@
+            </div>
+
+        </div>
+        <div class="divDrugi">
+
+            <div class="divPodaci">
+                <div class="divLicniPodaci">
+
+                    <div class="divLicniPodaciNaslov">
+                        @rm.GetString("licniPodaci", culture)
+                    </div>
+
+                    @{
+                        if (Model.Clan != null)
+                        {
+                            <div class="divLicniPodaciPrikaz">
+                                <div>
+                                    <label>@rm.GetString("ime", culture) </label>
+                                    <label>@rm.GetString("prezime", culture) </label>
+                                    <label>@rm.GetString("brojTelefona", culture)</label>
+                                    <label>@rm.GetString("email", culture)</label>
+                                    <label>@rm.GetString("datumRodjenja", culture)</label>
+                                </div>
+                                <div class="divLicniPodaciLabele">
+                                    <label class="ime">@Model.Clan.Ime</label>
+                                    <label class="prezime">@Model.Clan.Prezime</label>
+                                    @{
+                                        if (Model.Clan.Telefon == null)
+                                        {
+                                            <label class="brojTelefona"></label>
+                                        }
+                                        else
+                                        {
+                                            <label class="brojTelefona">@Model.Clan.Telefon</label>
+                                        }
+                                    }
+                                    <label class="email">@Model.Clan.Email</label>
+                                    <label class="datumRodjenja">@Model.Clan.DatumRodjenja.ToString("MM-dd-yyyy")</label>
+                                    @{
+                                        if (Model.Clan.Sport != null)
+                                        {
+                                            <label class="sport">@Model.Clan.Sport.Ime</label>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>@*divLicniPodaci*@
+
+                @{
+                    if (Model.UserCategory == UserCategory.PersonalTrainer && user.CachingData.CPT != 10 && user.CachingData.CPT != 11)
+                    {
+                        <div class="divZahtev">
+                            <form method="post">
+                                <input type="hidden" name="idz" value="@Model.Clan.ID" />
+                                <button type="submit" class="btnRegistracija">@rm.GetString("sendRequest", culture)</button>
+                            </form>
+                        </div>
+                    }
+                    else if (user.CachingData.CPT == 10)
+                    {
+                        <div class="divZahtev">
+                            <label style="margin: 2rem;"> <b>@rm.GetString("alr", culture)</b> </label>
+                        </div>
+                    }
+                    else
+                    {
+                        if (user.CachingData.CPT == 11)
+                        {
+                            <div class="divZahtev">
+                                <label style="margin: 2rem;"> <b>@rm.GetString("alr", culture)</b> </label>
+                            </div>
+                        }
+                    }
+                }
+
+            </div>
+
+        </div>
+    </div>
+    <input type="hidden" id="custId" name="custId" value="@Model.UserViewID">
+    <div class="blogs">
+        <div class="blog-posts-container">
+            <h1 class="blog-posts-heading">Blog Posts</h1>
+            <div class="posts">
+
+                <div class="container" id="containerPost">
+
+                </div>
+
+                <div class="loadingPost">
+                    <div class="ballspost"></div>
+                    <div class="ballspost"></div>
+                    <div class="ballspost"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script>
+        const containerPost = document.getElementById('containerPost');
+        const loadingPost = document.querySelector('.loadingPost');
+        const posts = document.querySelector('.posts');
+        let id = document.getElementById('custId').value;
+        let pageNum = 0;
+        let cnt = 0;
+
+        (() => {
+            getPosts(id);
+            getPosts(id);
+            getPosts(id);
+        })();
+
+        function HandlePostReq() {
+            const { scrollTop, scrollHeight, clientHeight } = containerPost;
+
+            if (clientHeight + scrollTop >= scrollHeight - 5) {
+                // show the loading animation
+                showLoadings();
+            }
+        }
+        containerPost.addEventListener('wheel', HandlePostReq, true);
+
+        function showLoadings() {
+            loadingPost.classList.add('show');
+
+
+            // load more data
+            setTimeout(getPosts, 1000)
+        }
+
+        async function getPosts(res) {
+            await fetch(`https://localhost:5001/Home/GetPostsForUser/${res}/25/${getPageNum()}`, {
+                method: 'GET'
+            }).then(async res => {
+                if (res.ok) {
+                    const postData = await res.json();
+                    const data = { pt: postData.list };
+                    if (postData.status === 1)
+                        addDataToDOMs(data);
+                    else {
+                        containerPost.removeEventListener('wheel', HandlePostReq, true);
+                        loadingPost.classList.remove('show');
+                    }
+                }
+                else {
+                    cnt++;
+                    if (cnt > 2) {
+                        containerPost.removeEventListener('wheel', HandlePostReq, true);
+                        loadingPost.classList.remove("show");
+                    }
+                }
+
+            });
+
+        }
+
+        function getPageNum() {
+            return pageNum++;
+        }
+
+        function addDataToDOMs(data) {
+            data.pt.forEach(Element => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('blog-post');
+                if (Element.clan.slika == null) {
+                    postElement.innerHTML = `
+                                                         <div class="blogPostuser-info">
+                                                          <img class="blogPostUserPic" src="Resources/korisnikProfilSlika.png" alt="" />
+                                                         <h2 class="title">${Element.clan.ime} ${Element.clan.prezime}</h2>
+                                                         </div>
+                                                         <p class="text">${Element.message}</p>
+                                                        `;
+                }
+                else {
+                    postElement.innerHTML = `
+                                                          <div class="blogPostuser-info">
+                                                          <img class="blogPostUserPic" src="${Element.clan.slika}" alt="" />
+                                                          <h2 class="title">${Element.clan.ime} ${Element.clan.prezime}</h2>
+                                                          </div>
+                                                          <p class="text">${Element.message}</p>
+                                                          `;
+                }
+
+                containerPost.appendChild(postElement);
+
+                loadingPost.classList.remove('show');
+            });
+        }
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+}

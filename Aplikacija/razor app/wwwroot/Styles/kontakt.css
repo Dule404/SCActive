@@ -1,0 +1,130 @@
+html {
+  font-size: 62.5%;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.mainContainer {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  background-size: cover;
+  /*height: 60vh;*/
+  max-width: 144rem;
+  column-gap: 16rem;
+  /*background-image: url("../Resources/Kontakt.png");*/
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  padding: 19rem 3.2rem;
+}
+
+.polja {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  flex: 0 1 auto;
+  min-width: 10rem;
+  max-width: 50rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 1.6rem;
+}
+
+#kontakt {
+  font-weight: bold;
+}
+
+.FullName {
+  display: flex;
+  gap: 1rem;
+  flex: 0 1;
+  flex-wrap: wrap;
+  min-width: 10rem;
+}
+
+.btnPosalji {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  border-radius: 0.8rem;
+  color: #ededed;
+  font-size: large;
+  font-weight: 400;
+  padding: 1rem 2rem;
+}
+
+.ostalaPolja {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  min-width: 10rem;
+}
+
+#porukaKontakt {
+  border-radius: 0.8rem;
+  border-color: #ededed;
+  font-size: large;
+  font-weight: 400;
+  resize: none;
+  font-family: "Poppins";
+  border: none;
+}
+
+.NaslovKontakt {
+  font-style: normal;
+  font-weight: 700;
+  font-size: xx-large;
+  color: #000000;
+}
+
+.mainContainer input {
+  border-radius: 8px;
+  font-size: large;
+  font-weight: 400;
+  font-style: normal;
+  border: none;
+  padding: 0.5rem;
+}
+
+.form-floating {
+  border: 1px solid rgb(26 26 26 / 0.2);
+  border-radius: 8px;
+}
+
+.forma {
+  /* max-width: 60rem; */
+  display: flex;
+  gap: 1.6rem;
+  flex-direction: column;
+}
+
+.gmap_canvas {
+  /*max-width: 100%;*/
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+@media (max-width: 790px) {
+  .mainContainer {
+    grid-template-columns: 1fr;
+    row-gap: 3.2rem;
+    height: auto;
+    margin: 0 auto;
+    padding: 10rem 3.2rem;
+  }
+
+  .gmap_canvas {
+    height: 600px;
+  }
+
+  .map {
+    height: 100%;
+  }
+}

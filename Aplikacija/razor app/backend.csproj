@@ -1,0 +1,309 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Styles\indexLogged.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="System.Web.Mvc.Extensions" Version="1.1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Resources\Bronze medal.png" />
+    <None Include="wwwroot\Resources\flat-color-icons_google.png" />
+    <None Include="wwwroot\Resources\Gold medal.png" />
+    <None Include="wwwroot\Resources\gymDektop.png" />
+    <None Include="wwwroot\Resources\gymPhone.png" />
+    <None Include="wwwroot\Resources\Hamburger.png" />
+    <None Include="wwwroot\Resources\Kontakt.png" />
+    <None Include="wwwroot\Resources\KontaktPrijava.png" />
+    <None Include="wwwroot\Resources\korisnikProfilSlika.png" />
+    <None Include="wwwroot\Resources\korpa.png" />
+    <None Include="wwwroot\Resources\logo.png" />
+    <None Include="wwwroot\Resources\loptabucica.png" />
+    <None Include="wwwroot\Resources\mainFirst.png" />
+    <None Include="wwwroot\Resources\moments.png" />
+    <None Include="wwwroot\Resources\obstrelica.png" />
+    <None Include="wwwroot\Resources\oNama.png" />
+    <None Include="wwwroot\Resources\popupBg1.png" />
+    <None Include="wwwroot\Resources\prijBg.png" />
+    <None Include="wwwroot\Resources\prijSlika1.png" />
+    <None Include="wwwroot\Resources\regBg.png" />
+    <None Include="wwwroot\Resources\regSlika.png" />
+    <None Include="wwwroot\Resources\Shop.png" />
+    <None Include="wwwroot\Resources\shopDesktop.png" />
+    <None Include="wwwroot\Resources\shopPhone.png" />
+    <None Include="wwwroot\Resources\Silver medal.png" />
+    <None Include="wwwroot\Resources\slikeOnama.png" />
+    <None Include="wwwroot\Resources\slikeOnama2.png" />
+    <None Include="wwwroot\Resources\slikeOnama3.png" />
+    <None Include="wwwroot\Resources\slikeOnama4.png" />
+    <None Include="wwwroot\Resources\sportbg.png" />
+    <None Include="wwwroot\Resources\sportDesktop.png" />
+    <None Include="wwwroot\Resources\sportPhone.png" />
+    <None Include="wwwroot\Resources\sportpslika (1).png" />
+    <None Include="wwwroot\Resources\sportpslika (2).png" />
+    <None Include="wwwroot\Resources\sportpslika (3).png" />
+    <None Include="wwwroot\Resources\strelica.png" />
+    <None Include="wwwroot\Resources\strelica2.png" />
+    <None Include="wwwroot\Resources\strelica3.png" />
+    <None Include="wwwroot\Resources\timelineBG.png" />
+    <None Include="wwwroot\Resources\Vector.png" />
+    <None Include="wwwroot\Styles\headerfooter.css" />
+    <None Include="wwwroot\Styles\indexLogged.css" />
+    <None Include="wwwroot\Styles\index.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Translations\korisnik.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>korisnik.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\korisnik.sr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\korisnikedit.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>korisnikedit.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\korisnikedit.sr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\korisnikpage.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>korisnikpage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\korisnikpage.sr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\prijava.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>prijava.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\headerfooter.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>headerfooter.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\headerfooter.sr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>headerfooter.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\prijava.sr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>prijava.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\registracija.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>registracija.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\registracija.sr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>registracija.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\prodavnica.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>prodavnica.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\prodavnica.sr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>prodavnica.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\kontakt.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>kontakt.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\kontakt.sr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>kontakt.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\administrator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>administrator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\administrator.sr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>administrator.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\trener.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>trener.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\trener.sr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>trener.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\proizvod.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>proizvod.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\proizvod.sr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>proizvod.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\korpa.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>korpa.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\korpa.sr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>korpa.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\index.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\index.sr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>index.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\search.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>search.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Translations\search.sr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>search.sr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Translations\korisnik.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>korisnik.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\korisnikedit.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>korisnikedit.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\korisnikpage.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>korisnikpage.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\prijava.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>prijava.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\headerfooter.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>headerfooter.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\headerfooter.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>headerfooter.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\prijava.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>prijava.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\registracija.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>registracija.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\registracija.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>registracija.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\prodavnica.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>prodavnica.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\prodavnica.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>prodavnica.sr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\kontakt.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>kontakt.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\kontakt.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>kontakt.sr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\administrator.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>administrator.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\administrator.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>administrator.sr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\trener.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>trener.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\trener.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>trener.sr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\proizvod.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>proizvod.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\proizvod.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>proizvod.sr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\korpa.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>korpa.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\korpa.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>korpa.sr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\index.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>index.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\index.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>index.sr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\search.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>search.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Translations\search.sr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>search.sr.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,303 @@
+﻿@page
+@using System.Resources
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using backend.Models.DbResponse;
+@using backend.Enums;
+@using backend.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IDatabaseService _databaseService
+@model backend.Pages.Prodavnica
+@inject ITranslatorService _translatorService
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.prodavnica));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+    var listProductsToShow = new List<Proizvod>();
+    int odeca = 0;
+    int obuca = 0;
+    int oprema = 0;
+    int suplementi = 0;
+    int currentcount = 0;
+    var CachingData = _sessionDataService.GetSessionData(_httpContextAccessor.HttpContext.Session).CachingData;
+    DbResponse resp = await _databaseService.GetProductsCount(CachingData.Category);
+    if (resp.Status)
+    {
+        var proizvodi = (List<int>)resp.Data.First();
+        odeca = proizvodi[0];
+        obuca = proizvodi[1];
+        oprema = proizvodi[2];
+        suplementi = proizvodi[3];
+        if (CachingData.Category != ProductCategory.All)
+            currentcount = proizvodi[4];
+    }
+
+
+    @section Styles
+{
+        <link rel="stylesheet" href="Styles/prodavnica.css">
+    }
+
+    <div class="mainContainer ">
+        @Html.AntiForgeryToken()
+        <div class="divPhoneMenu">
+            <div class="divNaslov"><h1 class="menu-heading">@rm.GetString("h1Odeca", culture)</h1></div>
+            <div class="divPhoneFiltriranje">
+                <div class="divFilteri">
+                    <a href="#?culture=@culture">@rm.GetString("kategorija", culture)</a>
+                </div>
+                <div class="divCena">
+                    <a href="#?culture=@culture">@rm.GetString("btnCena", culture)</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="divSideMenu">
+            <div class="divNaslov"><h1 class="clothes-heading">@rm.GetString("h1Odeca", culture)</h1></div>
+
+            <div class="divFiltriranje">
+                <p class="filter-text">@rm.GetString("lblfiltirajpoceni", culture)</p>
+                <div class="divCenaFilter">
+                    <input class="filter-input" type="number" placeholder="@rm.GetString("phod", culture)" id="shopCenaOd" min="0">
+                    <input class="filter-input" type="number" placeholder="@rm.GetString("phdo", culture)" id="shopCenaDo" min="0">
+                </div>
+                <div class="divDugmeFiltriraj">
+                    <button id="dugmeFiltriraj" class="filter-btn">@rm.GetString("btnFilter", culture)</button>
+                </div>
+            </div>
+
+            <div class="divKategorije">
+                <p class="categories-txt">@rm.GetString("kat", culture)</p>
+
+                <div class="divOdeca kategorija">
+                    <div class="kategorijeNaslov">
+                        <a class="odecalbl categories-heading" href="#?culture=@culture">@rm.GetString("h1Odeca", culture)</a>
+                        <label class="brojLabela" id="odecaBroj">@odeca</label>
+                    </div>
+                    <div class="OdecaMeni">
+                        <form method="post">
+                            <div class="stranica">
+                                <button asp-page-handler="Product" name="Sweater" class="lbl lblclicked" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Sweater" asp-route-id2="@culture">@rm.GetString("duks", culture)</button>
+                            </div>
+                        </form>
+                        <form method="post">
+                            <div class="stranica">
+                                <button asp-page-handler="Product" name="Tracksuits" class="lbl" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Tracksuits" asp-route-id2="@culture">@rm.GetString("tren", culture)</button>
+                            </div>
+                        </form>
+                        <form method="post">
+                            <div class="stranica">
+                                <button asp-page-handler="Product" name="Shirt" class="lbl" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Shirt" asp-route-id2="@culture">@rm.GetString("maijca", culture)</button>
+                            </div>
+                        </form>
+                        <form method="post">
+                            <div class="stranica">
+                                <button asp-page-handler="Product" name="Shorts" class="lbl" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Shorts" asp-route-id2="@culture">@rm.GetString("sorc", culture)</button>
+                            </div>
+                        </form>
+                        <form method="post">
+                            <div class="stranica">
+                                <button asp-page-handler="Product" name="Socks" class="lbl" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Socks" asp-route-id2="@culture">@rm.GetString("carape", culture)</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="divObuca kategorija">
+                    <div class="kategorijeNaslov">
+                        <a class="obucalbl categories-heading" href="#?culture=@culture">@rm.GetString("h1Obuca", culture)</a>
+                        <label class="brojLabela" id="obucaBroj">@obuca</label>
+                    </div>
+                    <div class="ObucaMeni">
+                        <form method="post">
+                            <div class="stranica">
+                                <button asp-page-handler="Product" name="Sneakers" class="lbl" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Sneakers" asp-route-id2="@culture">@rm.GetString("patike", culture)</button>
+                            </div>
+                        </form>
+                        <form method="post">
+                            <div class="stranica">
+                                <button asp-page-handler="Product" name="FlipFlops" class="lbl" onclick="this.form.submit()" asp-route-id1="@ProductCategory.FlipFlops" asp-route-id2="@culture">@rm.GetString("papuce", culture)</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="stranica kategorija">
+                    <div class="kategorijeNaslov">
+                        <form method="post">
+                            <button asp-page-handler="Product" name="Gear" class="lbl lblalone" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Gear" asp-route-id2="@culture">@rm.GetString("h1Operma", culture)</button>
+                        </form>
+                        <label class="brojLabela" id="sportskaOpremaBroj">@oprema</label>
+                    </div>
+                </div>
+                <div class="stranica kategorija">
+                    <div class="kategorijeNaslov">
+                        <form method="post">
+                            <button asp-page-handler="Product" name="Supplements" class="lbl lblalone" onclick="this.form.submit()" asp-route-id1="@ProductCategory.Supplements" asp-route-id2="@culture">@rm.GetString("h1Suplementi", culture)</button>
+                        </form>
+                        <label class="brojLabela" id="suplementiBroj">@suplementi</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* PROIZVODI *@
+        <div class="scrollhide">
+            @{listProductsToShow = Model.Products.Where(x => x.Kategorija == (int)CachingData.Category).ToList(); }
+            <div class="proizvodiContainer">
+
+                <div class="divProizvodi">
+                    @{
+                        if (listProductsToShow.Any())
+                        {
+                            foreach (var p in listProductsToShow)
+                            {
+                                if (culture.Name == "sr")
+                                {
+                                    p.Cena = (Int32.Parse(p.Cena) * 120).ToString();
+                                }
+                                string photoPath = "";
+                                if (p.Slika0 != null & p.Slika0 != "string")
+                                    photoPath = p.Slika0;
+                                else if (p.Slika1 != null & p.Slika1 != "string")
+                                    photoPath = p.Slika1;
+                                else if (p.Slika2 != null & p.Slika2 != "string")
+                                    photoPath = p.Slika2;
+                                else if (p.Slika3 != null & p.Slika3 != "string")
+                                    photoPath = p.Slika3;
+                                else
+                                    photoPath = "/Resources/no-image-found.png";
+                                <form method="post" class="proizvod" style="display:flex">
+                                    <button class="btnProizvod" asp-page-handler="Handler" asp-route-id1="@p.ID" style="cursor: pointer">
+                                        <div class="proizvod-div">
+                                            <a class="proizvod-div__clickable">
+                                                <img src="@photoPath" alt="product image" class="pocetnaFotografija">
+                                            </a>
+                                            <a class="imeProizvoda">@p.Ime</a>
+                                            <a class="cenaProizvoda">@p.Cena @rm.GetString("cena", culture)</a>
+                                        </div>
+                                    </button>
+                                </form>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+            <form method="post" class="toito">
+                @if (listProductsToShow.Count >= 15 && currentcount != listProductsToShow.Count)
+                {
+                    <button asp-page-handler="SS" type="submit" class="swm" onclick="document.querySelector('.toito').submit();" asp-route-id1="@CachingData.Category" asp-route-id2="@culture"> @rm.GetString("prikazivise", culture)</button>
+                }
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        let strane = document.querySelectorAll('.lbl');
+        window.addEventListener("load", () => {
+            strane.forEach(strana => {
+                strana.classList.remove("lblclicked");
+                if (strana.getAttribute("name") === "@CachingData.Category") {
+                    strana.classList.add("lblclicked");
+                }
+            });
+        });
+        window.onresize = function () {
+            if (window.innerWidth > 600) {
+                document.querySelector(".divKategorije").style.display = "flex";
+                document.querySelector(".divFiltriranje").style.display = "flex";
+            }
+            else {
+                document.querySelector(".divKategorije").style.display = "none";
+                document.querySelector(".divFiltriranje").style.display = "none";
+            }
+        };
+
+        let clickingKat = 0;
+        let divKategorija = document.querySelector(".divFilteri");
+
+        let clickingCena = 0;
+        let divCena = document.querySelector(".divCena");
+
+        divKategorija.addEventListener("click", () => {
+            if (clickingKat % 2 === 0) {
+                document.querySelector(".divKategorije").style.display = "flex";
+                clickingKat = (clickingKat + 1) % 2;
+            }
+            else {
+                document.querySelector(".divKategorije").style.display = "none";
+                clickingKat = (clickingKat + 1) % 2;
+            }
+        });
+
+        divCena.addEventListener("click", () => {
+            if (clickingCena % 2 === 0) {
+                document.querySelector(".divFiltriranje").style.display = "flex";
+                clickingCena = (clickingCena + 1) % 2;
+            }
+            else {
+                document.querySelector(".divFiltriranje").style.display = "none";
+                clickingCena = (clickingCena + 1) % 2;
+            }
+        });
+
+        let odecaBtn = document.querySelector('.odecalbl');
+        let obucaBtn = document.querySelector('.obucalbl');
+        let btnFilter = document.getElementById('dugmeFiltriraj');
+
+        let obucaCLC = 1;
+        let odecaCLC = 1;
+        //Odeca
+        odecaBtn.addEventListener("click", () => {
+            if (odecaCLC % 2 === 0) {
+                document.querySelector(".OdecaMeni").style.display = "flex";
+                odecaCLC = (odecaCLC + 1) % 2;
+            }
+            else {
+                document.querySelector(".OdecaMeni").style.display = "none";
+                odecaCLC = (odecaCLC + 1) % 2;
+            }
+        });
+        //Obuca
+        obucaBtn.addEventListener("click", () => {
+            if (obucaCLC % 2 === 0) {
+                document.querySelector(".ObucaMeni").style.display = "flex";
+                obucaCLC = (obucaCLC + 1) % 2;
+            }
+            else {
+                document.querySelector(".ObucaMeni").style.display = "none";
+                obucaCLC = (obucaCLC + 1) % 2;
+            }
+        });
+
+
+        let proizvodi = document.querySelectorAll('.proizvod');
+        btnFilter.addEventListener("click", () => {
+            let poljeOd = document.getElementById('shopCenaOd');
+            let poljeDo = document.getElementById('shopCenaDo');
+            if (poljeOd.innerText === null)
+                poljeOd = 0;
+            if (poljeDo === null)
+                poljeDo = Math.floor(Number.MAX_SAFE_INTEGER);
+            proizvodi.forEach(proizvod => {
+                proizvod.style.display = 'flex';
+                let cena = parseFloat(proizvod.querySelector('.cenaProizvoda').innerText);
+                if (cena < parseFloat(poljeOd.value) || cena > parseFloat(poljeDo.value)) {
+                    proizvod.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
+}

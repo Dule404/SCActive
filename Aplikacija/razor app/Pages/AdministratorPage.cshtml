@@ -1,0 +1,657 @@
+@page
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model backend.Pages.AdministratorPage
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@inject ITranslatorService _translatorService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.administrator));
+    var rmu = new ResourceManager(typeof(backend.Translations.korisnik));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+    string[] categoryProduct = Enum.GetNames(typeof(ProductCategory));
+
+    if (culture.Name == "sr")
+    {
+        for (int i = 0; i < categoryProduct.Length - 1; i++)
+        {
+            categoryProduct[i] = _translatorService.Prevedi(categoryProduct[i]).Result;
+        }
+    }
+
+}
+@section Styles{
+    <link rel="stylesheet" href="Styles/administrator.css">
+}
+
+
+<div class="mainContainer">
+    <div id="confirmProduct" class="popup">
+        <h2>@rm.GetString("suredelete", culture)</h2>
+        <button type="button" id="yesProduct">@rm.GetString("conf", culture)</button>
+        <button type="button" id="noProduct">@rm.GetString("canc", culture)</button>
+    </div>
+    <div id="confirmUser" class="popup">
+        <h2>@rm.GetString("sureUser", culture)</h2>
+        <button type="button" id="yesUser">@rm.GetString("conf", culture)</button>
+        <button type="button" id="noUser">@rm.GetString("canc", culture)</button>
+    </div>
+    <div id="changeProductInterface" class="popup">
+        <div class="lblIme">
+            <label for="imeChange">@rm.GetString("nam", culture)</label>
+            <input id="imeChange" placeholder="@rm.GetString("nam",culture)" />
+        </div>
+        <div class="lblCena">
+            <label for="cenaChange">@rm.GetString("prc", culture)</label>
+            <input id="cenaChange" placeholder="@rm.GetString("prc",culture)" />
+        </div>
+        <div class="lblOpis">
+            <label for="opisChange">@rm.GetString("op", culture)</label>
+            <input id="opisChange" placeholder="@rm.GetString("op",culture)<" />
+        </div>
+        <div class="lblKategorija">
+            <label for="kategorijaChange">@rm.GetString("cat", culture)</label>
+            <select id="kategorijaChange">
+                @for (int i = 0; i < categoryProduct.Length - 1; i++)
+                {
+                    <option value="@i">@categoryProduct[i]</option>
+                }
+            </select>
+        </div>
+        <!--Slike-->
+        <div class="lblKolicina">
+            <label for="kolicinaChage">@rm.GetString("quan", culture)</label>
+            <input type="number" id="kolicinaChange" placeholder="@rm.GetString("quan",culture)" />
+        </div>
+        <button id="ChangeBtn" type="button">@rm.GetString("save", culture)</button>
+        <button id="CancelBtn" type="button">@rm.GetString("canc", culture)</button>
+    </div>
+    <div class="overlay"></div>
+
+    @* PROIZVODI CONTAINER *@
+    <div class="proizvodiContainer">
+
+        <div class="show-box">
+            <p class="prozvodiContainerShow ContainerShow">@rm.GetString("prod", culture) <ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon></p>
+        </div>
+
+        <div class="proizvodi-drop-box">
+            <div id="addProizvod" style="display:none">
+                <p class="InterfaceAddShow show-text">@rm.GetString("adp", culture)</p>
+
+                <div id="addProizvodView" style="display:none" class="addProductInterface">
+                    <div class="productInfoDiv">
+                        <div class="lblIme label-input">
+                            <label for="ime">@rm.GetString("nam", culture)</label>
+                            <input id="ime" placeholder="@rm.GetString("nam",culture)" />
+                        </div>
+                        <div class="lblCena label-input">
+                            <label for="cena">@rm.GetString("prc", culture)</label>
+                            <input id="cena" placeholder="@rm.GetString("prc",culture)" />
+                        </div>
+                        <div class="lblOpis label-input">
+                            <label for="opis">@rm.GetString("op", culture)</label>
+                            <input id="opis" placeholder="@rm.GetString("op",culture)" />
+                        </div>
+                        <div class="lblKategorija label-input">
+                            <label for="kategorija">@rm.GetString("cat", culture)</label>
+                            <select id="kategorija">
+                                @for (int i = 0; i < categoryProduct.Length - 1; i++)
+                                {
+                                    <option value="@i">@categoryProduct[i]</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="lblKolicina label-input">
+                            <label for="kolicina">@rm.GetString("quan", culture)</label>
+                            <input type="number" id="kolicina" placeholder="@rm.GetString("quan",culture)" />
+                        </div>
+                        <button id="dodajBtn" class="dodajBtn btn" type="button">@rm.GetString("add", culture)</button>
+                    </div>
+                    <div class="productPicturesDiv">
+                        <div class="pictureUpload">
+                            <img id="img1" class="displayImage" src="~/Resources/addImage.png" />
+                            <input id="input1" type="file" class="imageInput" accept="image/png image/jpg">
+                        </div>
+                        <div class="pictureUpload">
+                            <img id="img2" class="displayImage" src="~/Resources/addImage.png" />
+                            <input id="input2" type="file" class="imageInput" accept="image/png image/jpg" />
+                        </div>
+                        <div class="pictureUpload">
+                            <img id="img3" class="displayImage" src="~/Resources/addImage.png" />
+                            <input id="input3" type="file" class="imageInput" accept="image/png image/jpg" />
+                        </div>
+                        <div class="pictureUpload">
+                            <img id="img4" class="displayImage" src="~/Resources/addImage.png" />
+                            <input id="input4" type="file" class="imageInput" accept="image/png image/jpg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="showProizvod" style="display:none">
+                <p class="proizvodiShow show-text">@rm.GetString("shwp", culture)</p>
+                <div id="proizvodiView" style="display:none">
+                    <div class="container" id="containerProizvodi">
+                        <h1>@rm.GetString("prod", culture)</h1>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* CLANOVI CONTAINER *@
+    <div class="clanoviContanier">
+        <div class="show-box">
+            <p class="clanoviContainerShow ContainerShow">@rm.GetString("cls", culture) <ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon></p>
+        </div>
+        <div id="clanoviView" style="display:none">
+            <div class="container" id="containerClanovi">
+                <h1>@rm.GetString("cls", culture)</h1>
+            </div>
+
+        </div>
+    </div>
+
+    @* TRENERI CONTAINER *@
+    <div class="treneriContainer">
+        <div class="show-box">
+            <p class="treneriContainerShow ContainerShow">@rm.GetString("trn", culture) <ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon></p>
+        </div>
+        <div id="treneriView" style="display:none">
+            <div class="container" id="containerTreneri">
+                <h1>@rm.GetString("trn", culture)</h1>
+            </div>
+
+        </div>
+    </div>
+    <div class="loading">
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="Scripts/administrator.js"></script>
+
+    <script>
+        const containerProizvod = document.getElementById('containerProizvodi');
+        const containerClanovi = document.getElementById('containerClanovi');
+        const containerTreneri = document.getElementById('containerTreneri');
+        const proizvodiView = document.getElementById('proizvodiView');
+        const clanoviView = document.getElementById('clanoviView');
+        const treneriView = document.getElementById('treneriView');
+        const loading = document.querySelector('.loading');
+        let countProizvod = 0;
+        let pageProizvod = 0;
+        let countClan = 0;
+        let pageClan = 0;
+        let countTrener = 0;
+        let pageTrener = 0;
+        getPostProizvod();
+        getPostTrener();
+        getPostClan();
+
+
+        proizvodiView.addEventListener('scroll', ProizvodHandler, true);
+        function ProizvodHandler() {
+            const { scrollTop, scrollHeight, clientHeight } = proizvodiView;
+
+            if (clientHeight + scrollTop >= scrollHeight - 5) {
+                // show the loading animation
+                showLoadingProizvod();
+            }
+        }
+
+        clanoviView.addEventListener('scroll', ClanoviHandler, true);
+        function ClanoviHandler() {
+            const { scrollTop, scrollHeight, clientHeight } = clanoviView;
+
+            if (clientHeight + scrollTop >= scrollHeight - 5) {
+                // show the loading animation
+                showLoadingClan();
+            }
+        }
+
+        treneriView.addEventListener('scroll', TreneriHandler, true);
+        function TreneriHandler() {
+            const { scrollTop, scrollHeight, clientHeight } = treneriView;
+
+            if (clientHeight + scrollTop >= scrollHeight - 5) {
+                // show the loading animation
+                showLoadingTrener();
+            }
+        }
+
+        function showLoadingProizvod() {
+            loading.classList.add('show');
+
+            // load more data
+            setTimeout(getPostProizvod, 2000)
+        }
+
+        function showLoadingTrener() {
+            loading.classList.add('show');
+
+            // load more data
+            setTimeout(getPostTrener, 2000)
+        }
+
+        function showLoadingClan() {
+            loading.classList.add('show');
+
+            // load more data
+            setTimeout(getPostClan, 2000)
+        }
+
+        async function getPostProizvod() {
+            await fetch(`https://localhost:5001/Home/GetProdudcts/15/${getProizvodPageNum()}`, {
+                method: 'GET'
+            }).then(async res => {
+                if (res.ok) {
+                    const postData = await res.json();
+                    const data = { pt: postData.list };
+                    if (postData.status == 1)
+                        addProizvodDataToDOM(data);
+                    else
+                        proizvodiView.removeEventListener('scroll', ProizvodHandler, true);
+
+                }
+                else {
+                    countProizvod++;
+                    if (countProizvod > 2) {
+                        proizvodiView.removeEventListener('scroll', ProizvodHandler, true);
+                    }
+                }
+
+                loading.classList.remove('show');
+            });
+
+
+        }
+
+        async function getPostTrener() {
+            await fetch(`https://localhost:5001/Home/GetPt/15/${getTrenerPageNum()}`, {
+                method: 'GET'
+            }).then(async res => {
+                if (res.ok) {
+                    const postData = await res.json();
+                    const data = { pt: postData.list };
+
+                    if (postData.status == 1)
+                        addTrenerDataToDOM(data);
+                    else
+                        treneriView.removeEventListener('scroll', TreneriHandler, true);
+                }
+                else {
+                    countTrener++;
+                    if (countTrener > 2) {
+                        treneriView.removeEventListener('scroll', TreneriHandler, true);
+                    }
+                }
+
+                loading.classList.remove('show');
+            });
+        }
+
+        async function getPostClan() {
+            await fetch(`https://localhost:5001/Home/GetClanove/15/${getClanPageNum()}`, {
+                method: 'GET'
+            }).then(async res => {
+                if (res.ok) {
+                    const postData = await res.json();
+                    const data = { pt: postData.list };
+                    if (postData.status == 1)
+                        addClanDataToDOM(data);
+                    else
+                        clanoviView.removeEventListener('scroll', ClanoviHandler, true);
+                }
+                else {
+                    countClan++;
+                    if (countClan > 2) {
+                        clanoviView.removeEventListener('scroll', ClanoviHandler, true);
+                    }
+                }
+
+                loading.classList.remove('show');
+            });
+        }
+
+        function getProizvodPageNum() {
+            return pageProizvod++;
+        }
+
+        function getTrenerPageNum() {
+            return pageTrener++;
+        }
+
+        function getClanPageNum() {
+            return pageClan++;
+        }
+
+        function addProizvodDataToDOM(data) {
+            data.pt.forEach(Element => {
+                const proizvodPostElement = document.createElement('div');
+                proizvodPostElement.innerHTML = `
+                                                <div id="productDynamic" class="productPost">
+                                                    <label class="imeToChange" style="font-size:2rem; font-weight:600" >${Element.ime}</label>
+                                                    <label class="opisToChange" style="font-size:1.4rem; font-weight:400">${Element.opis}</label>
+                                                    <label class="cenaToChange" style="font-size:1.6rem; font-weight:400; color:red;">Cena: ${Element.cena}</label>
+                                                    <label class="kolicinaToChange" style="font-size:1rem; font-weight:200" >Kolicina: ${Element.kolicina}</label>
+                                                    <input type="hidden" class="kategorijaToChange" value="${Element.kategorija}" />
+                                                    <input type="hidden" class="idToChange" value="${Element.id}" />
+                                                    <button type="button" class="izmeniBtn" >Izmeni</button>
+                                                    <button type="button" class="obrisiBtn">Obrisi</button>
+                                                </div>
+                                        `;
+                containerProizvod.appendChild(proizvodPostElement);
+            });
+            loading.classList.remove('show');
+            let btnChange = containerProizvod.querySelectorAll('.izmeniBtn');
+            btnChange.forEach(btn => {
+                let productToChange = btn.closest("#productDynamic");
+                btn.addEventListener("click", () => {
+                    ChangeProduct(productToChange);
+                });
+            });
+            let btnDelete = containerProizvod.querySelectorAll('.obrisiBtn');
+            btnDelete.forEach(btn => {
+                let productToDelete = btn.closest("#productDynamic");
+                btn.addEventListener("click", () => {
+                    DeleteProduct(productToDelete);
+                });
+            });
+        }
+
+        function addTrenerDataToDOM(data) {
+            data.pt.forEach(Element => {
+                const trenerPostElement = document.createElement('div');
+                trenerPostElement.classList.add('blog-post');
+                let photoPath = "";
+                if (Element.slika == null || Element.slika == "string")
+                    photoPath = "/Resources/profileNoimage";
+                else {
+                    photo = Element.slika
+                }
+                trenerPostElement.innerHTML = `
+                                            <div>
+                                                <img style="width:200px; height:200px; border-radius:200px" src="${photoPath}" onError="this.onerror=null;this.src='Resources/profileNoimage.png';" "/>
+                                                <div id="productDynamic" class="productPost">
+                                                    <label style="font-size:1.6rem; font-weight:600">${Element.ime}</label>
+                                                    <label style="font-size:1.6rem; font-weight:600">${Element.prezime}</label>
+                                                    <label style="font-size:1.4rem; font-weight:400">${Element.email}</label>
+                                                    <input type="hidden" class="idTrener" value="${Element.id}" />
+                                                    <button type="button" class="obrisiBtn">Obrisi</button>
+                                                </div>
+                                            </div>
+                                        `;
+                containerTreneri.appendChild(trenerPostElement);
+
+                loading.classList.remove('show');
+            });
+            let btnDelete = containerTreneri.querySelectorAll('.obrisiBtn');
+            btnDelete.forEach(btn => {
+                let clanToDelete = btn.closest("#productDynamic");
+                btn.addEventListener("click", () => {
+                    DeleteClan(clanToDelete);
+                });
+            });
+        }
+
+        function addClanDataToDOM(data) {
+            data.pt.forEach(Element => {
+                const clanPostElement = document.createElement('div');
+                clanPostElement.classList.add('blog-post');
+                let photoPath = "";
+                if (Element.slika == null || Element.slika == "string")
+                    photoPath = "/Resources/profileNoimage.png";
+                else {
+                    photo = Element.slika
+                }
+                clanPostElement.innerHTML = `
+                                            <div>
+                                                <img style="width:200px; height:200px; border-radius:200px" src="${photoPath}" onError="this.onerror=null;this.src='Resources/profileNoimage.png';" "/>
+                                                <div id="productDynamic" class="productPost">
+                                                    <label style="font-size:1.6rem; font-weight:600">${Element.ime}</label>
+                                                    <label style="font-size:1.6rem; font-weight:600">${Element.prezime}</label>
+                                                    <label style="font-size:1.4rem; font-weight:400">${Element.email}</label>
+                                                    <input type="hidden" class="idTrener" value="${Element.id}" />
+                                                    <button type="button" class="obrisiBtn">Obrisi</button>
+                                                </div>
+                                            </div>
+                                        `;
+                containerClanovi.appendChild(clanPostElement);
+
+                loading.classList.remove('show');
+            });
+            let btnDelete = containerClanovi.querySelectorAll('.obrisiBtn');
+            btnDelete.forEach(btn => {
+                let clanToDelete = btn.closest("#productDynamic");
+                btn.addEventListener("click", () => {
+                    DeleteClan(clanToDelete);
+                });
+            });
+        }
+
+        let idProductToChange = 0;
+        let idProductToDelete = 0;
+        let idClanToDelete = 0;
+        let imeChange = document.getElementById('imeChange');
+        let cenaChange = document.getElementById('cenaChange');
+        let opisChange = document.getElementById('opisChange');
+        let kolicinaChange = document.getElementById('kolicinaChange');
+        let kategorijaSelectChange = document.getElementById('kategorijaChange');
+        let btnSave = document.getElementById('ChangeBtn');
+        let btnCancel = document.getElementById('CancelBtn');
+
+        let popupInterface = document.getElementById("changeProductInterface");
+        let popupConfirmProduct = document.getElementById("confirmProduct");
+        let popupConfirmUser = document.getElementById("confirmUser");
+        let overlay = document.querySelector(".overlay");
+        let btnYesProduct = document.getElementById('yesProduct');
+        let btnYesUser = document.getElementById('yesUser');
+        let btnNoProduct = document.getElementById('noProduct');
+        let btnNoUser = document.getElementById('noUser');
+
+        overlay.addEventListener("click", () => {
+            overlay.style.display = 'none';
+            popupInterface.style.display = 'none';
+            popupConfirmProduct.style.display = 'none';
+            popupConfirmUser.style.display = 'none';
+        });
+
+        function ChangeProduct(product) {
+            idProductToChange = parseInt(product.querySelector('.idToChange').value);
+            let imeToChange = product.querySelector('.imeToChange');
+            let cenaToChangeString = product.querySelector('.cenaToChange').innerHTML;
+            let opisToChangeString = product.querySelector('.opisToChange').innerHTML;
+            let kolicinaToChangeString = product.querySelector('.kolicinaToChange').innerHTML;
+            let kategorijaToChange = product.querySelector('.kategorijaToChange');
+
+            popupInterface.style.display = 'block';
+            overlay.style.display = 'block';
+
+            imeChange.value = imeToChange.innerHTML;
+            cenaChange.value = cenaToChangeString.substring(6);
+            opisChange.value = opisToChangeString.substring(6);
+            kolicinaChange.value = parseInt(kolicinaToChangeString.substring(10));
+            kategorijaSelectChange.selectedIndex = parseInt(kategorijaToChange.value);
+        }
+
+        btnCancel.addEventListener("click", () => {
+            popupInterface.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        btnSave.addEventListener("click", async () => {
+            await fetch(`https://localhost:5001/Admin/ChangeProduct/${idProductToChange}/${imeChange.value}/${opisChange.value}/${cenaChange.value}/${kolicinaChange.value}/${kategorijaSelectChange.options[kategorijaSelectChange.selectedIndex].value}`, {
+                method: 'PUT'
+            }).then(async res => {
+                if (res.ok) {
+                    alert("Updated successfully!");
+                    popupInterface.style.display = 'none';
+                    overlay.style.display = 'none';
+                }
+                else {
+                    alert("Failed! Check console for more informations.");
+                }
+            });
+        });
+
+        function DeleteProduct(product) {
+            idProductToDelete = parseInt(product.querySelector('.idToChange').value);
+            popupConfirmProduct.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function DeleteClan(product) {
+            idClanToDelete = parseInt(product.querySelector('.idTrener').value);
+            popupConfirmUser.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        btnNoProduct.addEventListener("click", () => {
+            popupConfirmProduct.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        btnNoUser.addEventListener("click", () => {
+            popupConfirmUser.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        btnYesProduct.addEventListener("click", async () => {
+            await fetch(`https://localhost:5001/Admin/DeleteProduct/${idProductToDelete}`, {
+                method: 'DELETE'
+            }).then(async res => {
+                if (res.ok) {
+                    alert("Deleted successfully!");
+                    popupConfirmProduct.style.display = 'none';
+                    overlay.style.display = 'none';
+                }
+                else {
+                    alert("Failed! Check console for more informations.");
+                }
+            });
+        });
+
+        btnYesUser.addEventListener("click", async () => {
+            await fetch(`https://localhost:5001/Admin/DeleteClan/${idClanToDelete}`, {
+                method: 'DELETE'
+            }).then(async res => {
+                if (res.ok) {
+                    alert("Deleted successfully!");
+                    popupConfirmUser.style.display = 'none';
+                    overlay.style.display = 'none';
+                }
+                else {
+                    alert("Failed! Check console for more informations.");
+                }
+            });
+        });
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*
+    <div class="mainContainer">
+
+            @Html.AntiForgeryToken()
+        <div class="prviDeo">
+            <div>
+                <h2>@rm.GetString("h1naslov",culture)</h2>
+            </div>
+            <form method="post" class="sortiranje">
+                <labela>@rm.GetString("lblsort",culture) </labela>
+                <select asp-route-id1="@culture" onchange="this.form.submit()" name="SelectedCalculation">
+                    <option style="display:none" value="value">@rm.GetString("primeni",culture)</option>
+                    <option value="0">@rm.GetString("op1",culture)</option>
+                    <option value="1">@rm.GetString("op2",culture)</option>
+                </select>
+            </form>
+        </div>
+
+        <form method="post" class="drugiDeo">
+            <div class="dugmadi">
+                <button asp-page-handler="Clanovi" class="btnFilter" asp-route-id1="@culture">@rm.GetString("clanovi", culture)<span class='imgss'></span></button>
+                <button asp-page-handler="PersonalniTreneri" class="btnFilter" asp-route-id1="@culture">@rm.GetString("personalnitreneri", culture) <span class='imgss'></span></button>
+            </div>
+            <div class="tabelaPrikaza">
+                @{
+                    if (Model._clanovi.Any() && Model.btn == 0)
+                    {
+                        <div style="margin-bottom: 1em"><label>@String.Format(rm.GetString("count",culture),Model._clanovi.Count)</label></div>
+                        foreach (var el in Model._clanovi)
+                        {
+                            <div class="elS">
+                                <div><label>@rmu.GetString("ime") @el.Ime</label></div>
+                                <div><label>@rmu.GetString("prezime") @el.Prezime</label></div>
+                                <div><label>@rmu.GetString("email") @el.Email</label></div>
+                                <div><label>@rmu.GetString("brojTelefona") @el.Telefon</label></div>
+                            </div>
+                        }
+                        if (Model._clanovi.Count >= 15)
+                        {<button class="swm" asp-page-handler="MoreC" asp-route-id1="@culture"> @rm.GetString("prikazivise",culture)</button>}
+                    }
+                    else if (Model._personalniTreneri.Any() && Model.btn == 2)
+                    {
+                        <div style="margin-bottom: 1em"><label>@String.Format(rm.GetString("count",culture),Model._personalniTreneri.Count)</label></div>
+                        foreach (var el in Model._personalniTreneri)
+                        {
+                            <div class="elS">
+                              <div> <label>@rmu.GetString("ime") @el.Ime</label></div>
+                                <div><label>@rmu.GetString("prezime") @el.Prezime</label></div>
+                                <div><label>@rmu.GetString("email") @el.Email</label></div>
+                                <div><label>@rmu.GetString("brojTelefona") @el.Telefon</label></div>
+                            </div>
+                        }
+                        if (Model._personalniTreneri.Count >= 15)
+                        {<button class="swm" asp-page-handler="MorePT" asp-route-id1="@culture"> @rm.GetString("prikazivise",culture)</button>}
+                    }
+                }
+            </div>
+        </form>
+
+
+
+
+    </div>*@

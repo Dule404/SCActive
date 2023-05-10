@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="sec1h1reci" xml:space="preserve">
+        <value>Say </value>
+    </data>
+    <data name="sec1lblpostani" xml:space="preserve">
+        <value>Become a member of the most prestigious sports center today!</value>
+    </data>
+    <data name="sec1btntext" xml:space="preserve">
+        <value>Become Active Member</value>
+    </data>
+    <data name="sec1h1" xml:space="preserve">
+        <value>Gym</value>
+    </data>
+    <data name="sec1h2" xml:space="preserve">
+        <value>Sport</value>
+    </data>
+    <data name="sec1h3" xml:space="preserve">
+        <value>Shop</value>
+    </data>
+    <data name="sec1tb1" xml:space="preserve">
+        <value>Achieve your goals with your personal trainer of your choice. Diet plan and training program are waiting for you on your account!
+
+</value>
+    </data>
+    <data name="sec1tb2" xml:space="preserve">
+        <value>Make your child happy and play sports that you have always wanted to play at the most professional level, under the supervision of the best coaches from this part of the world!</value>
+    </data>
+    <data name="sec1tb3" xml:space="preserve">
+        <value>Make sure of the quality of supplements and sports equipment recommended by the world's greatest athletes!</value>
+    </data>
+    <data name="sec2naslov" xml:space="preserve">
+        <value>About us</value>
+    </data>
+    <data name="sec2text" xml:space="preserve">
+        <value>SC Active is characterized by extraordinary successes of teams from all sports, and you can see the number of medals in the picture below!</value>
+    </data>
+    <data name="sec3h1" xml:space="preserve">
+        <value>Foundation</value>
+    </data>
+    <data name="sec3h2" xml:space="preserve">
+        <value>First confession</value>
+    </data>
+    <data name="sec3h3" xml:space="preserve">
+        <value>First medal</value>
+    </data>
+    <data name="sec3h4" xml:space="preserve">
+        <value>Best!</value>
+    </data>
+    <data name="sec3h5" xml:space="preserve">
+        <value>Diamond silver!</value>
+    </data>
+    <data name="sec3h6" xml:space="preserve">
+        <value>Silver in Rio!</value>
+    </data>
+    <data name="sec3tb1" xml:space="preserve">
+        <value>Establishment of the Sports Center Active. We didn't even know that we were able to achieve such results, but we always believed in ourselves!</value>
+    </data>
+    <data name="sec3tb2" xml:space="preserve">
+        <value>After only 2 years since its founding, we receive recognition for by far the most complete sports center in Serbia!</value>
+    </data>
+    <data name="sec3tb3" xml:space="preserve">
+        <value>Gold medal at the U16 World Basketball Championship!</value>
+    </data>
+    <data name="sec3tb4" xml:space="preserve">
+        <value>We receive recognition for the best sports center in Europe!</value>
+    </data>
+    <data name="sec3tb5" xml:space="preserve">
+        <value>Silver in the triple jump in the Diamond League.</value>
+    </data>
+    <data name="sec3tb6" xml:space="preserve">
+        <value>Silver medal for our volleyball players at the Olympic Games in Rio!</value>
+    </data>
+    <data name="sec4btntext" xml:space="preserve">
+        <value>Log in</value>
+    </data>
+    <data name="sec4tb1" xml:space="preserve">
+        <value>You get access to our gym, you get your personal trainer to help you reach your goal with a personalized training program and nutrition plan!
+
+</value>
+    </data>
+    <data name="sec4tb2" xml:space="preserve">
+        <value>Train one or more sports at the highest level with professional fitness coaches and sports coaches! Team spirit is, along with the highest honors, what distinguishes us.</value>
+    </data>
+    <data name="sec4h1" xml:space="preserve">
+        <value>BOTH</value>
+    </data>
+    <data name="sec4h1i" xml:space="preserve">
+        <value>only for the elite</value>
+    </data>
+    <data name="sec4tb3" xml:space="preserve">
+        <value>And how are we aware that sports training alone is not enough for a professional athlete, but a gym is a must-have. We offer you our most elite program, which is used by all our members who want their performance to be at an enviable level, Sport +.</value>
+    </data>
+    <data name="sec1h1ne" xml:space="preserve">
+        <value>NO</value>
+    </data>
+    <data name="sec1h1izg" xml:space="preserve">
+        <value>to Excuses!</value>
+    </data>
+    <data name="postSomething" xml:space="preserve">
+        <value>Your post</value>
+    </data>
+    <data name="invalidPost" xml:space="preserve">
+        <value>Invalid post!</value>
+    </data>
+    <data name="post" xml:space="preserve">
+        <value>Post</value>
+    </data>
+    <data name="logintopost" xml:space="preserve">
+        <value>Log in to post something!</value>
+    </data>
+    <data name="blog" xml:space="preserve">
+        <value>Blog Posts</value>
+    </data>
+    <data name="pers" xml:space="preserve">
+        <value>Our Personal Trainers</value>
+    </data>
+</root>

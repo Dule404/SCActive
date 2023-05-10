@@ -1,0 +1,239 @@
+@page
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject ISessionDataService _sessionDataService
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ITranslatorService _translatorService
+@model backend.Pages.Proizvod
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.proizvod));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+
+    var _userSessionData = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (culture.Name == "sr")
+    {
+        Model.Product.Cena = (Int32.Parse(Model.Product.Cena) * 120).ToString();
+    }
+
+    string photo1 = "";
+    string photo2 = "";
+    string photo3 = "";
+    string photo4 = "";
+    if (Model.Product.Slika0 != null & Model.Product.Slika0 != "string")
+        photo1 = Model.Product.Slika0;
+    else
+        photo1 = "/Resources/no-image-found.png";
+    if (Model.Product.Slika1 != null & Model.Product.Slika1 != "string")
+        photo2 = Model.Product.Slika1;
+    else
+        photo2 = "/Resources/no-image-found.png";
+    if (Model.Product.Slika2 != null & Model.Product.Slika2 != "string")
+        photo3 = Model.Product.Slika2;
+    else
+        photo3 = "/Resources/no-image-found.png";
+    if (Model.Product.Slika3 != null & Model.Product.Slika3 != "string")
+        photo4 = Model.Product.Slika3;
+    else
+        photo4 = "/Resources/no-image-found.png";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="/Styles/proizvod.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+}
+
+<div class="mainContainer ">
+
+    <div class="popup">
+    </div>
+    <div class="overlay"></div>
+    <form method="post" class="forma123">
+        @Html.AntiForgeryToken()
+        <div class="imgDiv">
+                <img src=@photo1 class="foto" alt="product image 1">
+                <img src=@photo2 class="foto" alt="product image 2">
+                <img src=@photo3 class="foto" alt="product image 3">
+                <img src=@photo4 class="foto" alt="product image 4">
+        </div>
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide"><img src=@photo1 class="foto" alt=""></div>
+                <div class="swiper-slide"><img src=@photo2 class="foto" alt=""></div>
+                <div class="swiper-slide"><img src=@photo3 class="foto" alt=""></div>
+                <div class="swiper-slide"><img src=@photo4 class="foto" alt=""></div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+        </div>
+        <div class="opisDiv">
+            <h3 class="imeProizvoda">@Model.Product.Ime</h3>
+            <p class="cena">@Model.Product.Cena @rm.GetString("cenaFormat", culture)</p>
+            <p class="opis">@Model.Product.Opis</p>
+            <section class="velicina">
+                <p class="text">@rm.GetString("lblvelicina", culture)</p>
+                <div class="size">
+                    <button type="button" class="velicinaBtn" value="0">XS</button>
+                    <button type="button" class="velicinaBtn" value="0">S</button>
+                    <button type="button" class="velicinaBtn" value="0">M</button>
+                    <button type="button" class="velicinaBtn" value="0">L</button>
+                    <button type="button" class="velicinaBtn" value="0">XL</button>
+                    <button type="button" class="velicinaBtn" value="0">XXL</button>
+                </div>
+            </section>
+            <p class="rok">@rm.GetString("rok", culture): @Model.Product.DatumIstekaRoka</p>
+            <input hidden id="Kolicina" name="Kolicina" />
+            <input hidden id="Velicina" name="Velicina" />
+            <input hidden asp-for="@Model.Product.ID" />
+            <input hidden asp-for="@Model.Product.Ime" />
+            <input hidden asp-for="@Model.Product.Cena" />
+            <input hidden asp-for="@Model.Product.Opis" />
+            <input hidden asp-for="@Model.Product.Kolicina" />
+            <div class="kolicina">
+                <div class="complexBtn">
+                    <p class="decrease">-</p>
+                    <p class="quan">1</p>
+                    <p class="increase">+</p>
+                </div>
+                <button type="submit" disabled class="addToCart">@rm.GetString("btntext", culture)</button>
+            </div>
+            <p class="naStanju">@rm.GetString("naStanju", culture)</p>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            autoplay: {
+                derlay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+
+            loop: true,
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+        });
+    </script>
+    <script type="module">
+        let add = document.querySelector('.addToCart');
+        let btns = document.querySelectorAll(".velicinaBtn");
+
+        window.addEventListener('load', () => {
+            if (@Model.Product.Kategorija=== 7) {
+                document.querySelector('.velicina').style.display = 'none';
+            }
+        });
+
+        window.addEventListener('load', () => {
+            if (@Model.Product.Kategorija=== 8) {
+                add.style.backgroundColor = "#1a1a1a";
+                add.style.cursor = "pointer"
+                add.disabled = false;
+                document.querySelector('.velicina').style.display = 'none';
+                document.querySelector('.rok').style.display = 'flex';
+            }
+        });
+
+        window.addEventListener('load', () => {
+            if (@Model.Product.Kategorija=== 6 || @Model.Product.Kategorija=== 5) {
+                let brojShoe = 39;
+                btns.forEach(btn => {
+                    btn.innerText = brojShoe++;
+                });
+            }
+        });
+
+        let fotografije = document.querySelectorAll('.foto');
+        let prev = document.querySelector('.previous');
+        let next = document.querySelector('.next');
+        let fotoCount = fotografije.length;
+        let count = 0;
+
+            let increase = document.querySelector(".increase");
+            let decrease = document.querySelector(".decrease");
+            let quan = document.querySelector(".quan").innerText;
+
+            let velicina = document.querySelector('#Velicina')
+            let kolicina = document.querySelector('#Kolicina')
+            kolicina.value = quan;
+            increase.addEventListener("click", () => {
+                if (@Model.Product.Kolicina> quan) {
+                    quan++;
+                    kolicina.value = quan;
+                }
+                document.querySelector(".quan").innerText = quan;
+                });
+                decrease.addEventListener("click", () => {
+                    if (quan > 1) {
+                        quan--;
+                        kolicina.value = quan;
+                    }
+                    document.querySelector(".quan").innerText = quan;
+                });
+
+
+
+                btns.forEach((btn, index) => {
+                    btns[index].addEventListener('click', () => {
+                        btns.forEach((btn) => {
+                            btn.classList.remove('velicinaBtnClicked');
+                            btn.value = 0;
+                        });
+                        btns[index].classList.add('velicinaBtnClicked');
+                        btns[index].value = 1;
+                        velicina.value = btns[index].innerHTML;
+                        add.style.backgroundColor = "#1a1a1a";
+                        add.style.cursor="pointer"
+                        add.disabled = false;
+                    });
+                });
+
+        if (@Model.Product.Kolicina< 1) {
+            document.querySelector('.naStanju').style.display = 'flex';
+            add.disabled = true;
+            increase.style.cursor = 'default';
+            decrease.style.cursor = 'default';
+            btns.forEach(btn => {
+                    btn.style.cursor = 'default';
+                    btn.disabled = true;
+                });
+            }
+
+    </script>
+}
+

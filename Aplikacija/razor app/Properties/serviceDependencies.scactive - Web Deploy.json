@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "ignored": "true",
+      "suggestion": "true",
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:LocalConn"
+    },
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/scactive/databases/SCActiveDB",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:SCActiveCS"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+@page
+@using System.Globalization
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@model backend.Pages.KontaktPage
+@inject ISessionDataService _sessionDataService
+@inject IHttpContextAccessor _httpContextAccessor
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.kontakt));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/kontakt.css">
+    <link rel="stylesheet" href="Styles/floating.css">
+}
+
+
+<div class="mainContainer ">
+
+
+    @Html.AntiForgeryToken()
+    <form class="forma" method="post">
+        <div class="NaslovKontakt">@rm.GetString("h1naslov", culture)</div>
+        <div class="form-floating">
+            <input type="text" asp-for="Ime" placeholder="@rm.GetString("phIme",culture)" id="ImeKontakt" id="floatingInput" class="form-control" value="@user.Ime">
+            <span asp-validation-for="Ime" style="color: red"></span>
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("phIme", culture)</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" asp-for="Prezime" placeholder="@rm.GetString("phPrezime",culture)" id="PrezimeKontakt" id="floatingInput" class="form-control" value="@user.Prezime">
+            <span asp-validation-for="Prezime" style="color: red"></span>
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("phPrezime", culture)</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" asp-for="Con.Email" placeholder="@rm.GetString("phEmail", culture)" id="floatingInput" class="form-control" value="@user.Email">
+            <span asp-validation-for="Con.Email" style="color: red"></span>
+            <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("phEmail", culture)</label>
+        </div>
+        <div class="form-floating">
+            <textarea class="form-control" asp-for="Con.Poruka" cols="45" rows="10" placeholder="@rm.GetString("phporuka", culture)" id="floatingTextarea"></textarea>
+            <span asp-validation-for="Con.Poruka" style="color: red"></span>
+            <label style="font-size: 1.6rem;" for="floatingTextarea">@rm.GetString("phporuka", culture)</label>
+        </div>
+        <div>
+            <button type="submit" class="btnPosalji">@rm.GetString("btnText", culture)</button>
+        </div>
+    </form>
+    <div class="gmap_canvas">
+        <iframe class="map" id="gmap_canvas" src="https://maps.google.com/maps?q=Elektronski%20fakultet%20u%20Nisu&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module " src="Scripts/kontakt.js"></script>
+}

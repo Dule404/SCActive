@@ -1,0 +1,145 @@
+#prijava {
+  font-weight: bold;
+}
+
+.mainContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+
+  background: url("../Resources/prijBg.png");
+  background-size: cover;
+  padding-top: 8.8rem;
+
+  height: 100vh;
+}
+
+.form-image {
+  background-image: url("../Resources/prijSlika1.png");
+  background-size: cover;
+  background-position: center center;
+}
+
+.forma {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+
+  padding: 0 40% 0 5%;
+}
+
+.btnRegistracija {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+
+  background: #1a1a1a;
+  border-radius: 8px;
+  color: #ededed;
+  font-size: 1.6rem;
+  padding: 0.8rem 4rem;
+}
+
+.btnGoogle {
+  min-width: 1.6rem;
+  background: #4c7de8;
+  border-radius: 8px;
+  color: #ededed;
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+  column-gap: 0.8rem;
+  padding: 1.8rem;
+}
+
+.mainContainer input {
+  border: none;
+  min-width: 36rem;
+  padding: 0.8rem;
+  background: #ededed;
+  border-radius: 8px;
+  font-size: large;
+  height: 4.8rem;
+}
+
+.solid {
+  text-align: start;
+  padding-left: 1rem;
+}
+
+.imgGlg {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.solid {
+  color: #a39f9f;
+}
+
+.textMob {
+  font-size: 3.2rem;
+}
+
+input {
+  font-family: "Poppins", sans-serif;
+}
+
+.pointerEvent {
+  pointer-events: none;
+}
+
+@media (max-width: 1366px) {
+  .mainContainer {
+    padding-top: 8.72rem;
+  }
+}
+@media (max-width: 900px) {
+  .forma {
+    padding-right: 30%;
+  }
+}
+@media (max-width: 790px) {
+  .mainContainer {
+    padding-top: 6.86rem;
+  }
+
+  .forma {
+    padding-right: 20%;
+  }
+}
+@media (max-width: 600px) {
+  .mainContainer {
+    grid-template-columns: 1fr;
+    height: 80vh;
+  }
+
+  .forma {
+    padding: 0 10% 0 10%;
+  }
+
+  .form-image {
+    display: none;
+  }
+
+  input {
+    width: 90%;
+    min-width: 26px;
+  }
+
+  button {
+    padding: 1px;
+    min-width: 0;
+  }
+
+  .btnRegistracija {
+    flex: 0 1 200px;
+  }
+
+  .textMob {
+    display: initial;
+    text-indent: 0;
+    font-size: 3.2rem;
+    font-weight: 700;
+  }
+}
+@media (max-width: 450px) {
+}

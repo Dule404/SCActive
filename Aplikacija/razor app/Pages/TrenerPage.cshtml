@@ -1,0 +1,151 @@
+@page "{handler?}"
+@using System.Resources
+@using backend.Enums
+@using backend.Models
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model backend.Pages.TrenerPage
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.trener));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+}
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/trener.css">
+}
+
+<div class="mainContainer">
+
+    @Html.AntiForgeryToken()
+    <div class="prviDeo">
+        <div> <h2>@rm.GetString("h1naslov", culture)</h2></div>
+        <form method="post" class="sortiranje">
+            <label>@rm.GetString("lblsort", culture) </label>
+            <select asp-route-id1="@culture" onchange="this.form.submit()" name="SelectedCalculation">
+                <option style="display:none" value="value">@rm.GetString("primeni", culture)</option>
+                <option value="0">@rm.GetString("op1", culture)</option>
+                <option value="1">@rm.GetString("op2", culture)</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="drugiDeo">
+        <form method="post" class="dugmadi-form">
+            <div class="button-box">
+                <button class="btnFilter" asp-page-handler="Clanovi" asp-route-id1="@culture">
+                    @rm.GetString("btnPrikaziKlijente", culture)<ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon>
+            </button>
+        </div>
+
+        <div class="button-box">
+            <button class="btnFilter" asp-page-handler="Zahtevi" asp-route-id1="@culture">
+                @rm.GetString("btnPrikaziZahteve", culture)<ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon>
+        </button>
+    </div>
+</form>
+
+
+<div class="tabelaPrikaza">
+    @{
+        if (Model.btnClanovi == 1)
+        {
+            foreach (var clan in Model.clans)
+            {
+                <div class="elementi" onclick="
+                                    MethodHanderGoToPage(@clan.ID);" style="cursor: pointer">
+                    <label>@clan.Ime</label>
+                    <label>@clan.Prezime</label>
+                    <label>@clan.Email</label>
+                    <label>@clan.Telefon</label>
+                    <form method="post">
+                        <input type="hidden" name="idc" value="@clan.ID" />
+                        <button class="delete-btn" type="submit" asp-page-handler="Obrisi">@rm.GetString("obrisi")</button>
+                    </form>
+                </div>
+            }
+            if (Model.clans.Count >= 15)
+            {
+                <form method="post">
+                    <button class="swm" asp-page-handler="MoreC" asp-route-id1="@culture"> More</button>
+                </form>
+            }
+        }
+        else if (Model.btnClanovi == 2)
+        {
+            if (Model.zahtevPersonalniTreneri != null && Model.zahtevPersonalniTreneri.Any())
+            {
+                foreach (var zahtev in Model.zahtevPersonalniTreneri)
+                {
+                    <div class="elementi" onclick="
+                                    MethodHanderGoToPage(@zahtev.Clan.ID);" style="cursor: pointer">
+                        <label>@zahtev.Clan.Ime</label>
+                        <label>@zahtev.Clan.Prezime</label>
+                        <label>@zahtev.Clan.Email</label>
+                        <label>@zahtev.Clan.Telefon</label>
+                        <form method="post">
+                            <input type="hidden" name="idc" value="@zahtev.Clan.ID" />
+                            <button class="accept-btn" type="submit" asp-page-handler="Prihvati">@rm.GetString("prihvati")</button>
+                        </form>
+                        <form method="post">
+                            <input type="hidden" name="idc" value="@zahtev.Clan.ID" />
+                            <button class="delete-btn" type="submit" asp-page-handler="Odbij">@rm.GetString("odbij")</button>
+                        </form>
+                    </div>
+                }
+            }
+        }
+        if (Model.btnClanovi == 3)
+        {
+            <div class="poruka">@Model.poruka</div>
+        }
+        if (Model.btnClanovi == 6)
+        {
+            <div class="poruka">@rm.GetString("err6")</div>
+        }
+        if (Model.btnClanovi == 7)
+        {
+            <div class="poruka">@rm.GetString("err7")</div>
+        }
+
+    }
+
+</div>
+
+
+</div>
+
+</div>
+
+@section Scripts
+{
+    <script type="module" src="Scripts/administrator.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        async function MethodHanderGoToPage(id) {
+            await fetch(`https://localhost:5001/Home/GoToPage/${id}`, {
+                method: 'GET'
+            }).then(async res => {
+                if (res.ok) {
+                    res.json().then(data => {
+                        window.location = data.resp;
+                    });
+                }
+            });
+        }
+    </script>
+}

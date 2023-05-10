@@ -1,0 +1,209 @@
+﻿@page "{handler?}"
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model backend.Pages.KorisnikEditModel
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    
+    var user =  await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+        
+    var rm = new ResourceManager(typeof(backend.Translations.korisnikedit));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+}
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/korisnikedit.css">
+    <link rel="stylesheet" href="Styles/floating.css">
+}
+
+@section Scripts
+{
+    <script type="module" src="Scripts/administrator.js"></script>
+    <script type="module" src="~/Scripts/korisnikedit.js"></script>
+    <script>    
+    const isModifierKey = (event) => {
+                	const key = event.keyCode;
+                	return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+                		(key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+                		(key > 36 && key < 41) || // Allow left, up, right, down
+                		(
+                			// Allow Ctrl/Command + A,C,V,X,Z
+                			(event.ctrlKey === true || event.metaKey === true) &&
+                			(key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+                		)
+                };
+                
+                const enforceFormat = (event) => {
+                	// Input must be of a valid number format or a modifier key, and not longer than ten digits
+                	if(!isNumericInput(event) && !isModifierKey(event)){
+                		event.preventDefault();
+                	}
+                };
+                
+                const formatToPhone = (event) => {
+                	if(isModifierKey(event)) {return;}
+                
+                	// I am lazy and don't like to type things more than once
+                	const target = event.target;
+                	const input = event.target.value.replace(/\D/g,'').substring(0,15); // First ten digits of input only
+                	const zip = input.substring(0,3);
+                	const middle = input.substring(3,5);
+                	const last = input.substring(5,15);
+                
+                	if(input.length > 5){target.value = `+(${zip}) ${middle} ${last}`;}
+                	else if(input.length > 3){target.value = `+(${zip}) ${middle}`;}
+                	else if(input.length > 0){target.value = `+(${zip}`;}
+                };
+                
+                const inputElement = document.querySelector('.phone');
+                inputElement.addEventListener('keydown',enforceFormat);
+                inputElement.addEventListener('keyup',formatToPhone);
+
+        let btnClickedIndexCount = [0, 0, 0];
+        let btns = document.querySelectorAll('.textMob');
+        let shows = document.querySelectorAll('.textShow');
+        btns.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                if (btnClickedIndexCount[index] == 0)
+                    shows[index].style = "display: flex; flex-direction: column;";
+                else
+                    shows[index].style.display = "none";
+                btnClickedIndexCount[index] = (btnClickedIndexCount[index] + 1) % 2;
+            });
+        });
+
+                </script>
+}
+<div class="mainContainer ">
+
+        @Html.AntiForgeryToken()
+    <div class="divPrvi">
+
+        <div class="divKorisnikSlika">
+            @if (Model.Slika == null)
+            {
+                <img src="~/Resources/profileNoimage.png" alt="Profil slika">
+            }
+            else
+            {
+                <img src="@Model.Slika" alt="Profil slika">
+            }
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" asp-for="SlikaUpload" class="form-control" style="width: auto;" />
+                <button class="btn-dodaj" type="submit" asp-page-handler="Slika">@rm.GetString("dodajSliku",culture)</button>
+            </form>
+            @{
+                if (Model.btn == 5)
+                {
+                    <span style="color: red">@rm.GetString("errorSlika",culture)</span>
+                }
+            }
+        </div>
+
+    </div>
+    <div class="divDrugi">
+
+        <div class="divPodaci">
+
+                <form class="forma" method="post">
+                    <h1 class="textMob">@rm.GetString("naslovLicni", culture)</h1>
+                    <div class="textShow">
+                        <div class="fullName" style="display: flex; flex-direction: column">
+                            <div class="form-floating">
+                                <input type="text" asp-for="Clan.Ime" placeholder="@rm.GetString("ime", culture)" id="floatingInput" class="form-control">
+                                <label for="floatingInput">@rm.GetString("ime", culture)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" asp-for="Clan.Prezime" placeholder="@rm.GetString("prezime", culture)" id="floatingInput" class="form-control">
+                                <label for="floatingInput">@rm.GetString("prezime", culture)</label>
+                            </div>
+                        </div>
+    
+                        <div class="form-floating">
+                            <input type="tel" id="floatingInput" class="phone form-control" placeholder="@rm.GetString("telefon", culture)" asp-for="Clan.Telefon" >
+                            <label for="floatingInput">@rm.GetString("telefon", culture)</label>
+                        </div>
+    
+                        <div class="form-floating">
+                            <input type="date" asp-for="Clan.DatumRodjenja" min="1925-01-01" max="@DateTime.Now.ToShortDateString()" id="floatingInput" class="form-control">
+                            <label for="floatingInput">@rm.GetString("datum", culture)</label>
+                        </div>
+                        <div class="divRegistracija">
+                            <button type="submit" class="btnEdit" asp-page-handler="Podaci">@rm.GetString("btnPromeni", culture)</button>
+                        </div>
+                    </div>
+                </form>
+                
+
+                
+                <form class="forma" method="post">
+                    <h1 class="textMob">@rm.GetString("naslovEmail", culture)</h1>
+                    <div class="textShow">
+                        <div class="fullName" style="display: flex; flex-direction: column">
+                            <div class="form-floating">
+                                <input type="text" asp-for="Clan.Email" placeholder="@rm.GetString("email", culture)" id="floatingInput" class="form-control">
+                            <label for="floatingInput">@rm.GetString("email", culture)</label>
+                            </div>
+                        </div>
+                        <div class="divRegistracija">
+                            <button type="submit" class="btnEdit" asp-page-handler="Mail">@rm.GetString("btnPromeni", culture)</button>
+                        </div>
+                    </div>
+                    @{
+                        if (Model.btn==6)
+                        {
+                            <span style="color: red">@rm.GetString("val-email",culture)</span>
+                        }
+                        if(Model.btn==7)
+                        {
+                            <span style="color: red">@rm.GetString("val-EmailRegistered",culture)</span>
+                        }
+                        if(Model.btn==8)
+                        {
+                            <span style="color: red">@rm.GetString("error4",culture)</span>
+                        }
+                    }
+                </form>
+
+                <form class="forma" method="post">
+                    <h1 class="textMob">@rm.GetString("naslovLozinka", culture)</h1>
+                    <div class="textShow">
+                        <div class="fullName" style="display: flex; flex-direction: column">
+                            <div class="form-floating">
+                                <input type="password" asp-for="Clan.Lozinka" placeholder="@rm.GetString("lozinka", culture)" id="floatingPassword" class="form-control">
+                                <label for="floatingPassword">@rm.GetString("lozinka", culture)</label>
+                            </div>
+                        </div>
+                        <div class="divRegistracija">
+                            <button type="submit" class="btnEdit" asp-page-handler="Password">@rm.GetString("btnPromeni", culture)</button>
+                        </div>
+                    </div>
+                    @{
+                        if (Model.btn==9)
+                        {
+                            <span style="color: red; max-width: 270px">"@rm.GetString("val-password", culture)</span>
+                        }
+                        if(Model.btn==8)
+                        {
+                            <span style="color: red; max-width: 270px">"@rm.GetString("error4", culture)</span>
+                        }
+                    }
+                </form>
+
+            </div>
+        </div>
+
+        </div>

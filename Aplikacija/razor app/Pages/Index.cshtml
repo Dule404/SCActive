@@ -1,0 +1,592 @@
+﻿@page
+@using System.Resources
+@using backend.Enums
+@using backend.Models
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@model backend.Pages.IndexModel
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@inject IDatabaseService _databaseService
+@inject ITranslatorService _translatorService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext?.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.index));
+    var rm1 = new ResourceManager(typeof(backend.Translations.prodavnica));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+}
+
+@section Styles{
+    <link rel="stylesheet" href="Styles/index.css">
+    <link rel="stylesheet" href="Styles/indexLogged.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="Styles/floating.css">
+}
+
+
+@if (user.TipKorisnika != UserCategory.NotLogged)
+{
+    <style rel="stylesheet">
+        .reciNe {
+            justify-content: center;
+        }
+
+        .h1ReciNe {
+            font-size: 10rem;
+        }
+
+        .blogs {
+            max-width: 144rem;
+            margin: 0 auto;
+            padding: 0 3.2rem 5rem 3.2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            row-gap: 5rem;
+        }
+
+        .blog-posts-container {
+            width: 100%;
+        }
+    </style>
+}
+<div class="mainContainer " style="">
+    @Html.AntiForgeryToken()
+    <section class="prviDiv">
+
+        <div class="hero-container">
+
+            <div class="reciNe">
+
+
+                <h1 class="h1ReciNe">
+                    @rm.GetString("sec1h1reci", culture) <b style="color: #5ff5ff; font-weight: 900;">@rm.GetString("sec1h1ne", culture)</b> <s class="ss"> @rm.GetString("sec1h1izg", culture) </s>
+                </h1>
+
+                @if (user.TipKorisnika == UserCategory.NotLogged)
+                {
+                    <p class="pStyle">@rm.GetString("sec1lblpostani", culture)</p>
+
+                    <div class="activeClanDiv">
+                        <a href="Registracija?culture=@culture" class="activeClan">@rm.GetString("sec1btntext", culture)</a>
+                    </div>
+                }
+            </div>
+
+            <div class="textBoxDiv">
+                <div class="p1">
+                    <h3 class="sub-hero-heading">@rm.GetString("sec1h1", culture)</h3>
+                    <p class="sub-hero-p">@rm.GetString("sec1tb1", culture)</p>
+                    <img src="Resources/gymDektop.png" width="32" height="32" class="imgSmall" alt="">
+                </div>
+                <div class="p1">
+                    <h3 class="sub-hero-heading">@rm.GetString("sec1h2", culture)</h3>
+                    <p class="sub-hero-p">@rm.GetString("sec1tb2", culture)</p>
+                    <img src="Resources/sportDesktop.png" width="32" height="32" class="imgSmall" alt="">
+                </div>
+                <div class="p1">
+                    <h3 class="sub-hero-heading">@rm.GetString("sec1h3", culture)</h3>
+                    <p class="sub-hero-p">@rm.GetString("sec1tb3", culture)</p>
+                    <img src="Resources/shopDesktop.png" width="32" height="32" class="imgSmall" alt="">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="dynamicsPic">
+        <div class="blogs">
+            @if (user.TipKorisnika != UserCategory.NotLogged)
+            {
+                <form method="post" class="postSomething">
+                    @Html.AntiForgeryToken()
+                    <div class="posts-form-textbox">
+                        <label class="posts-label" for="floatingTextarea">@rm.GetString("postSomething", culture)</label>
+                        <textarea class="form-control posts-text-area" asp-for="Post.Message" placeholder="Post something" id="floatingTextarea"></textarea>
+                        <span asp-validation-for="Post.Message" style="color: red;"></span>
+
+                        <button type="submit" class="postBtn">@rm.GetString("post", culture)</button>
+                    </div>
+
+                </form>
+            }
+            else
+            {
+                <div>
+                    <h1 class="notLoggedMessage">@rm.GetString("logintopost", culture)</h1>
+                </div>
+            }
+            <div class="blog-posts-container">
+                <h1 class="blog-posts-heading">@rm.GetString("blog", culture)</h1>
+                <div class="posts">
+
+                    <div class="container" id="containerPost">
+
+                    </div>
+
+                    <div class="loadingPost">
+                        <div class="ballspost"></div>
+                        <div class="ballspost"></div>
+                        <div class="ballspost"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dynamics">
+
+
+            <div class="TreneriSwiper">
+                <h1 class="personal-trainers-heading">@rm.GetString("pers", culture)</h1>
+                <div class="container" id="container">
+
+                </div>
+
+                <div class="loading">
+                    <div class="ball"></div>
+                    <div class="ball"></div>
+                    <div class="ball"></div>
+                </div>
+            </div>
+
+
+            <div class="sliders">
+                <div class="ProizvodiSwiper">
+                    <div class="swiper">
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper">
+                            <!-- Slides -->
+                            @{
+                                var listProductsToShow = await _databaseService.Get25RandomProducts();
+                                if (listProductsToShow.Status)
+                                {
+                                    foreach (var p in listProductsToShow.Data as List<Proizvod>)
+                                    {
+                                        if (culture.Name == "sr")
+                                        {
+                                            p.Cena = (Int32.Parse(p.Cena) * 120).ToString();
+                                        }
+                                        string photoPath = "";
+                                        if (p.Slika0 != "string" & p.Slika0 != null)
+                                            photoPath = p.Slika0;
+                                        else if (p.Slika1 != "string" & p.Slika1 != null)
+                                            photoPath = p.Slika1;
+                                        else if (p.Slika2 != "string" & p.Slika2 != null)
+                                            photoPath = p.Slika2;
+                                        else if (p.Slika3 != "string" & p.Slika3 != null)
+                                            photoPath = p.Slika3;
+                                        else
+                                            photoPath = "/Resources/no-image-found.png";
+                                        <div class="swiper-slide">
+                                            <form method="post" class="proizvod">
+                                                <button class="btnProizvod" style="cursor: pointer" asp-page-handler="ProizvodHandler" asp-route-id1="@p.ID">
+                                                    <img class="pocetnaFotografija" src=@photoPath  />
+                                                    <p class="imeProizvoda">@p.Ime</p>
+                                                    <p class="cenaProizvoda">@p.Cena @rm1.GetString("cena", culture)</p>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                        <!-- If we need pagination -->
+                        <div class="swiper-pagination"></div>
+
+                        <!-- If we need navigation buttons -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <section class="drugiDiv" id="oNama">
+        <div class="container-layout">
+
+            <div class="divOnama">
+                <h1 class="h1ReciNe">@rm.GetString("sec2naslov", culture)</h1>
+                <p class="pStyle">@rm.GetString("sec2text", culture)</p>
+                <div class="slikeMedalje">
+                    <img class="medalje-img" src="Resources/Gold medal.png" alt="gold medal">
+                    <img class="medalje-img" src="Resources/Silver medal.png" alt="silver medal">
+                    <img class="medalje-img" src="Resources/Bronze medal.png" alt="bronze medal">
+                </div>
+            </div>
+
+            <div class="divOnamaSlike">
+
+                <div>
+                    <img src="Resources/slikeOnama.png" alt="" width="100%" height="auto">
+                </div>
+                <div>
+                    <img src="Resources/slikeOnama2.png" alt="" width="100%" height="auto">
+                </div>
+
+
+                <div>
+                    <img src="Resources/slikeOnama3.png" alt="" width="100%" height="auto">
+                </div>
+                <div>
+                    <img src="Resources/slikeOnama4.png" alt="" width="100%" height="auto">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="treciDiv">
+        <div class="lineHr">
+            <hr class="hrTimeline"><img src="Resources/strelica.png" alt="">
+            <hr class="hrTimeline">
+            <hr class="hrTimeline"><img src="Resources/strelica.png" alt="">
+            <hr class="hrTimeline">
+        </div>
+        <div class="mainPrviRed">
+            <div class="timeLine">
+                <img src="Resources/obstrelica.png" alt="">
+            </div>
+            <div class="prviRed">
+
+                <div class="timelineText">
+                    <p class="godina"> 2011</p>
+                    <h4>@rm.GetString("sec3h1", culture)</h4>
+                    @rm.GetString("sec3tb1", culture)
+                </div>
+                <div class="timelineText">
+                    <p class="godina"> 2013</p>
+                    <h4>@rm.GetString("sec3h2", culture)</h4>
+                    @rm.GetString("sec3tb2", culture)
+                </div>
+                <div class="timelineText">
+                    <p class="godina"> 2014</p>
+                    <h4>@rm.GetString("sec3h3", culture)</h4>
+                    @rm.GetString("sec3tb3", culture)
+                </div>
+            </div>
+        </div>
+        <div class="lineHr">
+            <hr class="hrTimeline"><img src="Resources/obstrelica.png" alt="">
+            <hr class="hrTimeline">
+            <hr class="hrTimeline"><img src="Resources/obstrelica.png" alt="">
+            <hr class="hrTimeline">
+        </div>
+        <div class="mainPrviRed">
+            <div class="timeLine">
+                <img src="Resources/obstrelica.png" alt="">
+            </div>
+            <div class="drugiRed">
+
+                <div class="timelineText">
+                    <p class="godina"> 2021</p>
+                    <h4>@rm.GetString("sec3h4", culture)! </h4>
+                    @rm.GetString("sec3tb4", culture)
+                </div>
+                <div class="timelineText">
+                    <p class="godina"> 2017</p>
+                    <h4>@rm.GetString("sec3h5", culture)</h4>
+                    @rm.GetString("sec3tb5", culture)
+                </div>
+                <div class="timelineText">
+                    <p class="godina"> 2016</p>
+                    <h4>@rm.GetString("sec3h6", culture)</h4>
+                    @rm.GetString("sec3tb6", culture)
+                </div>
+            </div>
+        </div>
+
+    </section>
+    @if (user.TipKorisnika == UserCategory.NotLogged)
+    {
+        <section class="cetvrtiDiv">
+
+            <div class="container-layout product-container">
+
+                <div class="product">
+                    <img src="Resources/sportpslika (1).png" alt="" class="img1">
+                    <div class="product--text-box">
+                        <h3>@rm.GetString("sec1h1", culture)</h3>
+                        <p class="product-p">@rm.GetString("sec4tb1", culture)</p>
+                        <a class="btn--product" href="Prijava?culture=@culture">@rm.GetString("sec4btntext", culture)</a>
+                    </div>
+
+                </div>
+
+                <div class="product sport-product">
+                    <img src="Resources/sportpslika (3).png" alt="" class="img2">
+                    <div class="product--text-box">
+                        <h3>@rm.GetString("sec1h2", culture)</h3>
+                        <p class="product-p"> @rm.GetString("sec4tb2", culture)</p>
+                        <a class="btn--product" href="Prijava?culture=@culture">@rm.GetString("sec4btntext", culture)</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-layout main-product-container">
+
+                <div class="drugiDeo" id="ponudaHref" style="text-align: center;">
+                    <h1 class="main-product-pre-heading"> @rm.GetString("sec4h1", culture)</h1>
+                    <img class="main-product-icon" src="Resources/loptabucica.png" alt="">
+                    <p class="only-elite-text">@rm.GetString("sec4h1i", culture)</p>
+                </div>
+
+                <div class="treciDeo">
+                    <img src="Resources/sportpslika (2).png" alt="" class="veciImg">
+                    <div class="main-product--text-box">
+                        <div class="main-product-heading-box">
+                            <h1 class="main-product-heading">
+                                @rm.GetString("sec1h2", culture)
+                            </h1>
+                            <span class="sport-plus">+</span>
+                        </div>
+                        <p class="main-product-p">@rm.GetString("sec4tb3", culture)</p>
+                        <a class="btn--main-product" href="Prijava?culture=@culture">@rm.GetString("sec4btntext", culture)</a>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </section>
+    }
+</div>
+
+@section Scripts
+{
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            autoplay: {
+                derlay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+
+            loop: true,
+            slidesPerView: 3,
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                dynamicBullets: true,
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+    <script>
+
+        const container = document.getElementById('container');
+        const trenerSwiper = document.querySelector('.TreneriSwiper');
+        const loading = document.querySelector('.loading');
+        let count = 0;
+        let page = 0;
+        if (trenerSwiper != null && container != null) {
+
+            getPost();
+            getPost();
+            getPost();
+
+            trenerSwiper.addEventListener('wheel', Handler, true);
+        }
+        function Handler() {
+            const { scrollTop, scrollHeight, clientHeight } = trenerSwiper;
+
+            if (clientHeight + scrollTop >= scrollHeight - 250) {
+                // show the loading animation
+                showLoading();
+            }
+
+        }
+        function showLoading() {
+            loading.classList.add('show');
+
+            // load more data
+            setTimeout(getPost, 1000)
+        }
+
+        async function getPost() {
+            await fetch(`https://localhost:5001/Home/GetPt/15/${getPageNum()}`, {
+                method: 'GET'
+            }).then(async res => {
+                if (res.ok) {
+                    const postData = await res.json();
+                    const data = { pt: postData.list };
+                    if (postData.status === 1)
+                        addDataToDOM(data);
+                    else {
+                        trenerSwiper.removeEventListener('wheel', Handler, true);
+                        loading.classList.remove('show');
+                    }
+                }
+                else {
+                    count++;
+                    if (count > 2) {
+                        trenerSwiper.removeEventListener('wheel', Handler, true);
+                        loading.classList.remove("show");
+                    }
+                }
+
+            });
+
+
+        }
+        async function GoToPage(id, culture) {
+            await fetch(`https://localhost:5001/Home/GoToPage/${id}`, {
+                method: 'GET'
+            }).then(async res => {
+                if (res.ok) {
+                    res.json().then(data => {
+                        window.location = data.resp;
+                    });
+                }
+            });
+        }
+
+        function getPageNum() {
+            return page++;
+        }
+
+        function addDataToDOM(data) {
+            data.pt.forEach(Element => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('blog-post');
+                let photo = "";
+                if (Element.slika == null || Element.slika=="string") {
+                    photo ="Resources/no-image-found.png"
+                }
+                else {
+                    photo = Element.slika
+                }
+                postElement.innerHTML = `<img class="profilePicTrainer" src="${photo}"/>
+                                         <div class="userInfo">
+                                            <h2 class="title">${Element.ime}</h2>
+                                            <div class="user-info">
+                                                <p class="text">${Element.email}</p>
+                                                <p class="text">${Element.telefon}</p>
+                                                <p class="text">${Element.sport.ime}</p>
+                                             </div>
+                                         </div>
+                                        `;
+
+                container.appendChild(postElement);
+
+                postElement.addEventListener('click', () => {
+                    GoToPage(Element.id);
+                })
+
+                loading.classList.remove('show');
+            });
+
+        }
+    </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+    <script>
+        const containerPost = document.getElementById('containerPost');
+        const loadingPost = document.querySelector('.loadingPost');
+        const posts = document.querySelector('.posts');
+        let pageNum = 0;
+        let cnt = 0;
+        
+        
+        getPosts();
+        
+        function HandlePostReq() {
+            const { scrollTop, scrollHeight, clientHeight } = containerPost;
+
+            if (clientHeight + scrollTop >= scrollHeight - 5) {
+                // show the loading animation
+                showLoadings();
+            }
+        }
+
+        containerPost.addEventListener('wheel', HandlePostReq, true);
+
+        function showLoadings() {
+            loadingPost.classList.add('show');
+
+
+            // load more data
+            setTimeout(getPosts, 1000)
+        }
+
+        async function getPosts() {
+            await fetch(`https://localhost:5001/Home/GetPosts/25/${getPageNum()}`,
+                {
+                    method: 'GET'
+                }).then(async res => {
+                    if (res.ok) {
+                        const postData = await res.json();
+                        const data = { pt: postData.list };
+                        if (postData.status === 1) {
+                            addDataToDOMs(data);
+                        }
+                        else {
+                            containerPost.removeEventListener('wheel', HandlePostReq, true);
+                            loadingPost.classList.remove('show');
+                        }
+                    }
+                    else {
+                        cnt++;
+                        if (cnt > 2) {
+                            containerPost.removeEventListener('wheel', HandlePostReq, true);
+                            loadingPost.classList.remove("show");
+                        }
+                    }
+                });
+        }
+
+        function getPageNum() {
+            return pageNum++;
+        }
+
+        function addDataToDOMs(data) {
+            data.pt.forEach(Element => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('blog-post');
+                let photo = "";
+                if (Element.clan.slika == null || Element.clan.slika=="string") {
+                    photo ="Resources/profileNoimage.png"
+                }
+                else {
+                    photo = Element.clan.slika;
+                }
+                postElement.innerHTML = `<div class="blogPostuser-info">
+                                                <img class="blogPostUserPic" src="${photo}" />
+                                                <h2 class="title">${Element.clan.ime} ${Element.clan.prezime}</h2>
+                                             </div>
+                                             <p class="text">${Element.message}</p>
+                                                `;
+                containerPost.appendChild(postElement);
+                postElement.addEventListener('click', () => {
+                    GoToPage(Element.clanID);
+                })
+
+                loadingPost.classList.remove('show');
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+}

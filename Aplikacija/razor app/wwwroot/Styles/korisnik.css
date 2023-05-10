@@ -1,0 +1,380 @@
+.mainContainer {
+  max-width: 144rem;
+  margin: 0 auto;
+  column-gap: 30px;
+
+  min-height: 100vh;
+  padding: 9rem 3.2rem;
+}
+
+.slika-podaci {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  column-gap: 5rem;
+}
+
+.divPrvi {
+}
+
+.divPrvi,
+.divDrugi,
+.divTreci {
+  padding-top: 50px;
+}
+.divLicniPodaciNaslov,
+.divAktivnePretplateNaslov,
+.divTeretanaNaslov,
+.divTrenerNaslov,
+.divSportNaslov,
+.divGlavniTrenerNaslov {
+  font-weight: bold;
+  font-size: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.divPodaci {
+  display: flex;
+  flex-direction: column;
+}
+.divPodaci label {
+  font-size: 1.6rem;
+}
+
+.divLicniPodaciPrikaz,
+.divAktivnePretplatePrikaz,
+.divTeretana,
+.divTrener,
+.divSport,
+.divGlavniTrener {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 2rem;
+}
+
+.divLicniPodaciPrikaz > div,
+.divAktivnePretplatePrikaz > div,
+.divTeretana > div,
+.divTrener > div,
+.divSport > div,
+.divGlavniTrener > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.divLicniPodaci {
+  padding-bottom: 2rem;
+}
+
+.divLicniPodaciLabele,
+.divPretplatePodaci,
+.divTrenerLicniPodaci,
+.divGlavniTrenerLabele {
+  font-weight: 600;
+}
+
+.divLicniPodaciPrikaz > div > label {
+  min-width: 130px;
+}
+
+.divKorisnikSlika > img {
+  width: 18rem;
+  height: auto;
+
+  border-radius: 20px;
+}
+
+.divKorisnikSlika {
+}
+
+.divDrugi {
+  order: 3;
+  width: 30%;
+  min-width: 300px;
+  position: relative;
+}
+
+.divTreci {
+  display: flex;
+  flex-direction: column;
+  order: 2;
+  height: 100%;
+  width: 30%;
+  align-self: flex-start;
+  /*border: 1px solid rgba(196, 196, 196, 0.5);*/
+
+  min-width: 200px;
+  min-height: 150px;
+}
+
+.divKalendarNaslov {
+  font-weight: bold;
+  font-size: 32px;
+  width: 100%;
+}
+
+.mesec {
+  font-size: 24px;
+  font-weight: bold;
+  padding-right: 50px;
+}
+
+.divKalendar {
+  display: flex;
+  flex-direction: row;
+}
+
+.divNedeljaUMesecu {
+  display: flex;
+}
+
+.divDaniUMesecu {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.divPoljeNedelja {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  align-self: center;
+  text-align: center;
+
+  padding: 2px;
+
+  margin: 2px;
+}
+
+.divPolje,
+.divPraznoPolje {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  align-self: center;
+  text-align: center;
+
+  padding: 2px;
+
+  margin: 2px;
+}
+
+.divPolje {
+  background-color: rgba(196, 196, 196, 0.5);
+}
+
+.divPolje:hover {
+  background-color: rgba(236, 48, 48, 0.5);
+}
+
+.divTeretanaTrener {
+  padding-bottom: 30px;
+}
+
+.divSportGlavniTrener {
+  padding-bottom: 20px;
+}
+.divSportGlavniTrener {
+  padding-top: 20px;
+}
+
+.linija1 {
+  display: none;
+  position: absolute;
+  width: 80%;
+  height: 0;
+
+  left: 160px;
+  top: 450px;
+
+  border: 1px solid rgba(196, 196, 196, 0.5);
+}
+
+.linija2 {
+  display: none;
+  position: absolute;
+  width: 80%;
+  height: 0;
+
+  left: 160px;
+  top: 635px;
+
+  border: 1px solid rgba(196, 196, 196, 0.5);
+}
+
+.divTeretanaTrener {
+  padding-top: 30px;
+}
+
+.divTeretana label {
+  font-weight: 600;
+}
+
+.divSportPodaci label {
+  font-weight: 600;
+}
+
+.btnRegistracija {
+  background: #1a1a1a;
+  border-radius: 8px;
+  color: #ededed;
+  font-size: large;
+  padding: 5px 25px 5px 25px;
+  font-weight: 600;
+}
+
+.edit-profile:link,
+.edit-profile:visited {
+  position: absolute;
+  top: 7.5rem;
+  right: 2rem;
+
+  display: flex;
+  justify-items: center;
+  align-items: center;
+
+  /* height: 4.5rem;
+    width: 4.5rem; */
+  background-color: #1a1a1a;
+  border-radius: 5px;
+  padding: 0.5rem;
+  text-decoration: none;
+
+  transition: all 0.3s;
+}
+
+.edit-profile:hover,
+.edit-profile:active {
+  background-color: #444;
+}
+
+.edit-icon {
+  color: white;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.posalji-btn {
+    display: inline-block;
+    border: none;
+    font-family: inherit;
+    font-size: 1.6rem;
+    background-color: #1a1a1a;
+    border-radius: 1rem;
+    color: white;
+    padding: 0.8rem 1.6rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+@media only screen and (max-width: 1366px) {
+  .linija1 {
+    left: 160px;
+    top: 500px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 820px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .linija1 {
+    left: 160px;
+    top: 490px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 810px;
+  }
+
+  .divSportGlavniTrener {
+    padding-top: 25px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .linija1 {
+    left: 160px;
+    top: 530px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 890px;
+  }
+}
+
+@media only screen and (max-width: 646px) {
+  .linija1 {
+    left: 160px;
+    top: 760px;
+  }
+
+  .linija2 {
+    left: 160px;
+    top: 1110px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .mainContainer {
+    height: auto;
+  }
+
+  .slika-podaci {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .edit-profile:link,
+  .edit-profile:visited {
+    top: 5rem;
+  }
+
+  .divPrvi {
+    order: 1;
+  }
+  .divDrugi {
+    order: 3;
+    padding-top: 20px;
+  }
+  .divTreci {
+    order: 2;
+    width: 70%;
+  }
+  .mainContainer {
+    flex-wrap: wrap;
+  }
+
+  .linija1 {
+    position: absolute;
+    width: 85%;
+    height: 0;
+
+    left: 30px;
+    top: 680px;
+
+    border: 1px solid rgba(196, 196, 196, 0.5);
+  }
+
+  .linija2 {
+    position: absolute;
+    width: 85%;
+    height: 0;
+
+    left: 30px;
+    top: 1015px;
+
+    border: 1px solid rgba(196, 196, 196, 0.5);
+  }
+
+  .divKalendarNaslov {
+    font-weight: bold;
+    font-size: 22px;
+    width: 250px;
+  }
+}

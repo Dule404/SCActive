@@ -1,0 +1,444 @@
+/* COLORS:
+#1A1A1A
+#868686
+#5FF5FF
+ */
+
+.mainContainer {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 2rem;
+
+  min-height: 100vh;
+  padding: 15rem 3.2rem;
+}
+
+button,
+input {
+  font-family: "Poppins", sans-serif;
+}
+
+.divKategorije li {
+  list-style: none;
+}
+
+.divCenaFilter {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.filter-input {
+  border: none;
+  padding: 1rem;
+  background: #ededed;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  width: 15rem;
+  min-width: 8rem;
+}
+
+.divSideMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.clothes-heading {
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+
+.divFiltriranje {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.divDugmeFiltriraj {
+  align-self: flex-end;
+}
+
+.filter-btn {
+  background: #1a1a1a;
+  border-radius: 100px;
+  color: white;
+  font-weight: 500;
+  padding: 0.8rem 2.4rem;
+  font-size: 1.4rem;
+
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  color: #5ff5ff;
+}
+
+.filter-text {
+  font-size: 1.8rem;
+}
+
+.divKategorije {
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.categories-txt {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding: 2rem 0;
+}
+
+.categories-heading:link,
+.categories-heading:visited {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.lbl {
+  color: #868686;
+  font-size: 1.6rem;
+  font-family: "Poppins";
+  border: none;
+  background-color: transparent;
+
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lbl:hover {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.lblclicked {
+  color: #1a1a1a;
+  font-weight: 600;
+  border-radius: 3rem;
+  border: none;
+}
+
+.kategorijeNaslov {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+.brojLabela {
+  color: #868686;
+  font-size: 1.4rem;
+}
+
+.OdecaMeni,
+.ObucaMeni {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  padding-left: 2rem;
+}
+
+.kategorija:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+/* PROIZVODI (2. KOLONA) */
+.toito {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swm {
+  font-size: large;
+  padding: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  border: none;
+  background-color: #cccccc;
+  border-radius: 3rem;
+  margin-top: 1rem;
+}
+.lblalone {
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: #1a1a1a;
+}
+
+.proizvodiContainer {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.divProizvodi {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.btnProizvod {
+  width: 100%;
+  border: none;
+  background: none;
+
+  position: relative;
+}
+
+.proizvod {
+  display: none;
+  align-items: center;
+  flex-direction: column;
+}
+
+.proizvod-div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  align-items: center;
+}
+
+.proizvod-div__clickable {
+  overflow: hidden;
+  height: 40rem;
+  max-width: 30rem;
+}
+
+.pocetnaFotografija {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+
+  transition: all 0.3s;
+}
+
+.pocetnaFotografija:hover {
+  transform: scale(1.1);
+}
+
+.imeProizvoda,
+.cenaProizvoda {
+  display: block;
+  text-align: center;
+}
+
+.imeProizvoda {
+  font-size: 2rem;
+  text-transform: capitalize;
+  line-height: 1.5;
+}
+
+.cenaProizvoda {
+  font-size: 1.6rem;
+  color: orangered;
+}
+
+.sortiranjeInput {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+}
+
+/*
+.sortiranjeInput >label{
+    height: max-content;
+    align-self: center;
+}
+*/
+
+.sortiranjeInput select {
+  border: none;
+  min-width: 10rem;
+  padding: 0.5rem;
+  background: #ededed;
+  border-radius: 8px;
+  font-size: large;
+  height: 3rem;
+  width: 20rem;
+}
+
+.sortiranjeInput > div {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.divPhoneMenu {
+  display: none;
+}
+
+select {
+  cursor: pointer;
+}
+
+option {
+  cursor: pointer;
+}
+.scrollhide {
+  overflow-x: hidden;
+  width: 100%;
+}
+.proizvodiContainer::-webkit-scrollbar {
+  width: 1rem;
+  border-radius: 2rem;
+}
+
+.proizvodiContainer::-webkit-scrollbar-track {
+  background: #ededed;
+  border-radius: 3rem;
+}
+
+.proizvodiContainer::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 3rem;
+}
+
+@media (max-width: 1366px) {
+  .divProizvodi {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  .divProizvodi {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+}
+
+@media (max-width: 790px) {
+  .divProizvodi {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainContainer {
+    padding-top: 13rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .menu-heading {
+    font-size: 4.8rem;
+    font-weight: 700;
+    padding-bottom: 2rem;
+  }
+
+  .scrollhide {
+    margin-top: 5rem;
+  }
+
+  .divPhoneFiltriranje {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .divFilteri,
+  .divCena {
+    background: #ededed;
+    border-radius: 5rem;
+    text-decoration: none;
+    text-align: center;
+
+    font-size: 2.4rem;
+    padding: 1rem 2rem;
+    font-weight: 600;
+  }
+
+  .divKategorije {
+    padding: 1rem 2.5rem 2rem 2.5rem;
+    margin-top: 2rem;
+
+    background: #ededed;
+    border-radius: 20px;
+  }
+
+  .divFiltriranje {
+    align-items: center;
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+
+  .divDugmeFiltriraj {
+    align-self: center;
+  }
+  /* OVO JE PRIČA O NAMAA */
+
+  .divFiltriranje,
+  .divKategorije,
+  .divSideMenu > .divNaslov {
+    display: none;
+  }
+
+  .divDesktopFiltriranje {
+    display: none;
+  }
+
+  .divPhoneMenu {
+    display: initial;
+  }
+
+  .divPhoneFiltriranje a {
+    text-decoration: none;
+    font-size: smaller;
+    color: #000000;
+  }
+
+  #shopCenaOd,
+  #shopCenaDo {
+    background: #d6d6d6;
+    margin: 0.3rem;
+  }
+
+  .divProizvodi > div {
+    display: flex;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .proizvod-div__clickable {
+    height: 100%;
+    max-width: 100%;
+  }
+
+  .imeProizvoda {
+    font-size: 2.4rem;
+  }
+
+  .cenaProizvoda {
+    font-size: 2.4rem;
+  }
+
+  .divFiltriranje {
+    align-self: flex-start;
+    background: #ededed;
+    width: 100%;
+    border-radius: 3rem;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .divFilteri a {
+    color: black;
+    text-decoration: none;
+  }
+
+  .divFilteri {
+    cursor: pointer;
+  }
+
+  .divFilteri a:hover {
+    border: none;
+  }
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="sec1lblpostani" xml:space="preserve">
+        <value>Postanite član najprestižnijeg sportskog centra već danas!</value>
+    </data>
+    <data name="sec1btntext" xml:space="preserve">
+        <value>Postani Active Član</value>
+    </data>
+    <data name="sec1h1" xml:space="preserve">
+        <value>Teretana</value>
+    </data>
+    <data name="sec1h2" xml:space="preserve">
+        <value>Sport</value>
+    </data>
+    <data name="sec1h3" xml:space="preserve">
+        <value>Prodavnica</value>
+    </data>
+    <data name="sec1tb1" xml:space="preserve">
+        <value>Dostigni svoje ciljeve uz svog, po tvojoj meri odabranog, personalnog trenera. Plan ishrane i program treninga te očekuju na svom nalogu! </value>
+    </data>
+    <data name="sec1tb2" xml:space="preserve">
+        <value>Obraduj dete u sebi i bavi se sportom kojim si oduvek želeo da se baviš na najprofesionalnijem nivou, uz nadzor najboljih trenera sa ovog dela sveta! </value>
+    </data>
+    <data name="sec1tb3" xml:space="preserve">
+        <value>Uverite se u kvalitet suplementacije i sportske opreme koju preporučuju najveći sportisti sveta!</value>
+    </data>
+    <data name="sec2naslov" xml:space="preserve">
+        <value>O nama</value>
+    </data>
+    <data name="sec2text" xml:space="preserve">
+        <value>SC Active odlikuju izvandredni uspesi timova iz svih sportova, a broj medalja možete videti na slici ispod!</value>
+    </data>
+    <data name="sec3h1" xml:space="preserve">
+        <value>Osnivanje</value>
+    </data>
+    <data name="sec3h2" xml:space="preserve">
+        <value>Prvo priznanje</value>
+    </data>
+    <data name="sec3h3" xml:space="preserve">
+        <value>Prva medalja</value>
+    </data>
+    <data name="sec3h4" xml:space="preserve">
+        <value>Najbolji!</value>
+    </data>
+    <data name="sec3h5" xml:space="preserve">
+        <value>Dijamantsko srebro!</value>
+    </data>
+    <data name="sec3h6" xml:space="preserve">
+        <value>Srebro u Riu!</value>
+    </data>
+    <data name="sec3tb1" xml:space="preserve">
+        <value>Osnivanje sportskog centra Active. Nismo ni znali da smo u mogućnosti da ostvarimo ovakve rezultate, ali smo uvek verovali u sebe! </value>
+    </data>
+    <data name="sec3tb2" xml:space="preserve">
+        <value>Nakon samo 2 godine od osnivanja dobijamo priznanje za daleko najkompletniji sportski centar u Srbiji!</value>
+    </data>
+    <data name="sec3tb3" xml:space="preserve">
+        <value>Zlatna medalja na svetskom prvenstvu u košarci do 16 godina! </value>
+    </data>
+    <data name="sec3tb4" xml:space="preserve">
+        <value>Dobijamo priznanje za najbolji sportski centar u evropi! </value>
+    </data>
+    <data name="sec3tb5" xml:space="preserve">
+        <value>Srebro u troskoku u dijamantskoj ligi. </value>
+    </data>
+    <data name="sec3tb6" xml:space="preserve">
+        <value>Srebrna medalja za naše odbojkašice na olimpijskim igrama u Riu! </value>
+    </data>
+    <data name="sec4btntext" xml:space="preserve">
+        <value>Prijavi se</value>
+    </data>
+    <data name="sec4tb1" xml:space="preserve">
+        <value>Dobijate pristup našoj teretani, dobijate svog personalnog trenera koji će Vam pomoći da dođete do svog cilja uz personalizovan program treninga i plan ishrane! </value>
+    </data>
+    <data name="sec4tb2" xml:space="preserve">
+        <value>Trenirajte jedan ili više sportova na najvišem nivou uz profesionalne kondicione trenere i trenere sporta! Timski duh je, uz najviša odličja, ono što nas odlikuje. </value>
+    </data>
+    <data name="sec4h1" xml:space="preserve">
+        <value>I JEDNO I DRUGO</value>
+    </data>
+    <data name="sec4h1i" xml:space="preserve">
+        <value>samo za elitu</value>
+    </data>
+    <data name="sec4tb3" xml:space="preserve">
+        <value>I te kako smo svesni da samo trening sporta nije dovoljan za profesionalnog sportistu, već je teretana musthave. Nudimo Vam naš najelitniji program, koji koriste svi naši članovi koji žele da im performanse budu na zavidnom nivou, Sport+. </value>
+    </data>
+    <data name="sec1h1reci" xml:space="preserve">
+        <value>Reci </value>
+    </data>
+    <data name="sec1h1ne" xml:space="preserve">
+        <value>NE</value>
+    </data>
+    <data name="sec1h1izg" xml:space="preserve">
+        <value>Izgovorima</value>
+    </data>
+    <data name="postSomething" xml:space="preserve">
+        <value>Vaša objava</value>
+    </data>
+    <data name="invalidPost" xml:space="preserve">
+        <value>Nevalidna objava!</value>
+    </data>
+    <data name="post" xml:space="preserve">
+        <value>Objavi</value>
+    </data>
+    <data name="logintopost" xml:space="preserve">
+        <value>Uloguj se da bi objavio nešto!</value>
+    </data>
+    <data name="blog" xml:space="preserve">
+        <value>Objave</value>
+    </data>
+    <data name="pers" xml:space="preserve">
+        <value>Naši personalni treneri</value>
+    </data>
+</root>

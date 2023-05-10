@@ -1,0 +1,235 @@
+.mainContainer {
+    max-width: 144rem;
+    margin: 0 auto;
+    padding: 12rem 3.2rem;
+    height:100vh;
+
+}
+
+.prviDeo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 2rem;
+}
+
+.prviDeo h2 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.prviDeo select {
+    border: none;
+    min-width: 10rem;
+    padding: .5rem;
+    background: #ededed;
+    border-radius: 8px;
+    font-size: large;
+    width: 20rem;
+
+}
+
+.sortiranje label {
+    font-size: 2rem;
+}
+
+.sortiranje select {
+    font-family: inherit;
+}
+
+.drugiDeo {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 4rem;
+}
+
+.dugmadi {
+}
+
+.dugmadi form {
+    display: flex;
+    flex-direction: column;
+}
+
+.dugmadi-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.button-box {
+    display: inline-block;
+}
+
+.btnFilter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    width: 100%;
+    font-family: inherit;
+    font-size: 2.4rem;
+    font-weight: 500;
+    padding: 1rem 1.5rem;
+    border: none;
+    color: white;
+    cursor: pointer;
+
+    transition: all 0.3s;
+}
+
+.btnFilter:hover, .btnFilter:active {
+    background-color: #444;
+}
+
+.arrow-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: white;
+}
+
+.imgss {
+    background: none;
+    background: url('../Resources/strelica3.png');
+    width: 30px;
+    background-repeat: no-repeat;
+    height: 23px;
+}
+
+.btnFilterClicked {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 32px;
+    font-weight: 600;
+    padding: 3px;
+    border: 2px solid black;
+    border-radius: 12px;
+    background-color: white;
+    color: black;
+    font-style: normal;
+}   
+
+.imgssClicked {
+    background: none;
+    background: url('../Resources/strelica2.png');
+    width: 30px;
+    background-repeat: no-repeat;
+    height: 23px;
+}
+
+.clanovi,
+.ptreneri,
+.treneri {
+    display: none;
+}
+
+.tabelaPrikaza {
+    margin-right: auto;
+}
+
+.elementi {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    margin: 1rem;
+    background-color: #dfdfdf;
+    color: #1a1a1a;
+    border-radius: 8px;
+    padding: 1.5rem 5rem 1.5rem 1.5rem;
+    font-size: 1.6rem;
+}
+
+.accept-btn {
+    font-family: inherit;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+    padding: .8rem 1.6rem;
+    border: none;
+    color: white;
+    background-color: rgb(20, 173, 58);
+    cursor: pointer;
+    border-radius: 5px;
+
+    transition: all 0.3s;
+}
+
+.accept-btn:hover {
+    background-color: rgb(25, 199, 63);
+}
+
+.delete-btn {
+    font-family: inherit;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+    padding: .8rem 1.6rem;
+    border: none;
+    color: white;
+    background-color: rgb(173, 20, 20);
+    cursor: pointer;
+    border-radius: 5px;
+
+    transition: all 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: rgb(199, 25, 25);
+}
+
+@media only screen and (max-width: 600px) {
+    .mainContainer {
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+    .prviDeo h2 {
+        margin: 0;
+    }
+    .prviDeo {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        margin-bottom: 5rem;
+    }
+    .drugiDeo {
+        
+    }
+    .dugmadi {
+        margin-bottom: 0;
+        width: 100%;
+    }
+    .drugiDeo .imgss {
+        transform: rotate(90deg);
+        height: 28px;
+    }
+    .btnFilter {
+        width: 100%;
+        font-size: 16px;
+    }
+    .clanovi,
+    .ptreneri,
+    .treneri {
+        display: initial;
+    }
+    .tabelaPrikaza {
+        /* display: none; */
+    }
+}
+
+@media (max-width: 450px) {
+    .drugiDeo {
+        grid-template-columns: 1fr;
+    }
+
+    .dugmadi-form {
+        margin-bottom: 3rem;
+    }
+
+    .tabelaPrikaza {
+        width: 100%;
+    }
+}

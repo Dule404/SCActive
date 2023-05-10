@@ -1,0 +1,251 @@
+@page "{handler?}"
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model backend.Pages.Korisnik
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user = await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.korisnik));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/korisnik.css">
+}
+
+@section Scripts
+{
+}
+
+<svg class="linija1"></svg>
+<svg class="linija2"></svg>
+<div class="mainContainer ">
+
+    @Html.AntiForgeryToken()
+
+    <div class="slika-podaci">
+
+        <div class="divPrvi">
+
+            <div class="divKorisnikSlika">
+            @{
+                if(Model.Slika==null)
+                {
+                    <img src="~/Resources/profileNoimage.png" alt="Profil slika">
+                }
+                else
+                {
+                    <img src="@Model.Slika" alt="Profil slika">
+                }
+            }
+            </div>
+
+        </div>
+        <div class="divDrugi">
+
+            <div class="divPodaci">
+                <div class="divLicniPodaci">
+
+                    <div class="divLicniPodaciNaslov">
+                        @rm.GetString("licniPodaci", culture)
+                    </div>
+
+                    @{
+                        if (Model.UserCategory == UserCategory.DefaultUser)
+                        {
+                            <div class="divLicniPodaciPrikaz">
+                                <div>
+                                    <label>@rm.GetString("ime", culture) </label>
+                                    <label>@rm.GetString("prezime", culture) </label>
+                                    <label>@rm.GetString("brojTelefona", culture)</label>
+                                    <label>@rm.GetString("email", culture)</label>
+                                    <label>@rm.GetString("datumRodjenja", culture)</label>
+                                    <label>Sport:</label>
+                                </div>
+                                <div class="divLicniPodaciLabele">
+                                    <label class="ime">@Model.clan.Ime</label>
+                                    <label class="prezime">@Model.clan.Prezime</label>
+                                    @{
+                                        if (Model.clan.Telefon == null)
+                                        {
+                                            <label class="brojTelefona"></label>
+                                        }
+                                        else
+                                        {
+                                            <label class="brojTelefona">@Model.clan.Telefon</label>
+                                        }
+                                    }
+                                    <label class="email">@Model.clan.Email</label>
+                                    <label class="datumRodjenja">@Model.clan.DatumRodjenja.ToString("MM-dd-yyyy")</label>
+                                </div>
+                            </div>
+                        }
+                        if (Model.UserCategory == UserCategory.PersonalTrainer)
+                        {
+                            <div class="divLicniPodaciPrikaz">
+                                <div>
+                                    <label>@rm.GetString("ime", culture) </label>
+                                    <label>@rm.GetString("prezime", culture) </label>
+                                    <label>@rm.GetString("brojTelefona", culture)</label>
+                                    <label>@rm.GetString("email", culture)</label>
+                                    <label>@rm.GetString("datumRodjenja", culture)</label>
+                                    <label>Sport:</label>
+                                </div>
+                                <div class="divLicniPodaciLabele">
+                                    <label class="ime">@Model.personalniTrener.Ime</label>
+                                    <label class="prezime">@Model.personalniTrener.Prezime</label>
+                                    @{
+                                        if (Model.personalniTrener.Telefon == null)
+                                        {
+                                            <label class="brojTelefona">XXX XXXXXXX</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="brojTelefona">@Model.personalniTrener.Telefon</label>
+                                        }
+                                    }
+                                    <label class="email">@Model.personalniTrener.Email</label>
+                                    <label class="datumRodjenja">@Model.personalniTrener.DatumRodjenja.ToString("MM-dd-yyyy")</label>
+                                    <label class="datumRodjenja">@Model.personalniTrener.Sport.Ime</label>
+                                </div>
+                            </div>
+                        }
+                        if (Model.UserCategory == UserCategory.Administrator)
+                        {
+                            <div class="divLicniPodaciPrikaz">
+                                <div>
+                                    <label>@rm.GetString("ime", culture) </label>
+                                    <label>@rm.GetString("prezime", culture) </label>
+                                    <label>@rm.GetString("email", culture)</label>
+                                </div>
+                                <div class="divLicniPodaciLabele">
+                                    <label class="ime">@Model.admin.Ime</label>
+                                    <label class="prezime">@Model.admin.Prezime</label>
+                                    <label class="email">@Model.admin.Email</label>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+
+                <div class="divAktivnePretplate">
+                    @{
+                        if (Model.UserCategory != UserCategory.Administrator)
+                        {
+                            <div class="divAktivnePretplateNaslov">
+                                @rm.GetString("aktivnePretplate", culture)
+                            </div>
+                        }
+                    }
+
+
+                    <div class="divAktivnePretplatePrikaz">
+
+                        @{
+                            if (Model.UserCategory == UserCategory.DefaultUser)
+                            {
+                                <div class="divPretplateLabele">
+                                    <label>@rm.GetString("datumRegistracije", culture) </label>
+
+                                </div>
+                                <div class="divPretplatePodaci">
+                                    <label id="datumRegistracije">@Model.clan.DatumRegistracije.ToString("MM-dd-yyyy")</label>
+
+                                </div>
+                            }
+                            if (Model.UserCategory == UserCategory.PersonalTrainer)
+                            {
+                                <div class="divPretplateLabele">
+                                    <label>@rm.GetString("datumRegistracije", culture) </label>
+                                    <label>Sport: </label>
+                                </div>
+                                <div class="divPretplatePodaci">
+                                    <label id="datumRegistracije">@Model.personalniTrener.DatumRegistracije.ToString("MM-dd-yyyy")</label>
+                                    <label id="sport">@Model.personalniTrener.Sport.Ime</label>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+
+                <div class="divTrenerPodaci">
+                    @{
+                        if (Model.UserCategory == UserCategory.DefaultUser && Model.personalniTrener != null)
+                        {
+                            <div class="divTrenerNaslov">
+                                @rm.GetString("personalniTrenerNaslov", culture)
+                            </div>
+
+                            <div class="divTrener">
+                                <div>
+                                    <label>@rm.GetString("ime", culture)</label>
+                                    <label>@rm.GetString("prezime", culture)</label>
+                                    <label>@rm.GetString("brojTelefona", culture)</label>
+                                    <label>@rm.GetString("email", culture) </label>
+                                    <label>Sport:</label>
+                                </div>
+                                <div class="divTrenerLicniPodaci">
+                                    @{
+                                        if (@Model.personalniTrener != null)
+                                        {
+                                            <label class="ime">@Model.personalniTrener.Ime</label>
+                                            <label class="prezime">@Model.personalniTrener.Prezime</label>
+
+                                            if (Model.personalniTrener.Telefon == null)
+                                            {
+                                                <label class="brojTelefona">XXX XXXXXXX</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="brojTelefona">@Model.personalniTrener.Telefon</label>
+                                            }
+
+                                            <label class="email">@Model.personalniTrener.Email</label>
+                                            if (Model.personalniTrener.Sport != null)
+                                            {
+                                                <label class="sport">@Model.personalniTrener.Sport.Ime</label>
+                                            }
+                                        }
+                                    }
+                                </div>
+                                <form method="post">
+                                    <input type="hidden" name="idt" value="@Model.personalniTrener.ID"/>
+                                    <button class="posalji-btn" type="submit" asp-page-handler="Obrisi">@rm.GetString("obrisi")</button>
+                                </form>                                
+                            </div>
+                        }
+                    }
+
+                </div>
+                <div class="err-info">
+                @{
+                    if(Model.Btn==-1)
+                    {
+                        <label>@rm.GetString("neuspesnoObrisan")</label>
+                    }
+                }
+                </div>
+
+            </div>
+
+                <a class="edit-profile" href="KorisnikEdit?culture=@culture"><ion-icon class="edit-icon" name="create-outline"></ion-icon></a>
+
+        </div>
+    </div>
+</div>

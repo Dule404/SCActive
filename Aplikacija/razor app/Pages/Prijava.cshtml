@@ -1,0 +1,61 @@
+@page
+@model backend.Pages.Prijava
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user =  await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.prijava));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/prijava.css">
+    <link rel="stylesheet" href="Styles/floating.css">
+}
+
+@section Scripts
+{
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+}
+
+<div class="mainContainer">
+    <div class="form-image">
+
+    </div>
+
+    <form class="forma" method="post">
+        @Html.AntiForgeryToken()
+        <h1 class="textMob">@rm.GetString("btnPrijava", culture)</h1>
+                <div class="form-floating">
+                    <input type="text" asp-for="Email" placeholder="@rm.GetString("email", culture)" id="floatingInput" class="form-control">
+                    <span asp-validation-for="Email" style="color: red;"></span>
+                    <label style="font-size: 1.6rem;" for="floatingInput">@rm.GetString("email", culture)</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" asp-for="Password" placeholder="@rm.GetString("lozinka", culture)" id="floatingPassword" class="form-control">
+                    <span asp-validation-for="Password" style="color: red;"></span>
+                    <label style="font-size: 1.6rem;" for="floatingPassword">@rm.GetString("lozinka", culture)</label>
+                </div>
+        <div class="divRegistracija">
+            <button class="btnRegistracija" type="submit">@rm.GetString("btnPrijava", culture)</button>
+        </div>
+        <div class="nemamNalog">
+            <a href="Registracija?culture=@culture" class="nn" style="color: #1a1a1a;">@rm.GetString("nemasNalog", culture)</a>
+        </div>
+    </form>
+</div>

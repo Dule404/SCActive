@@ -1,0 +1,108 @@
+﻿@page
+@using System.Resources
+@using backend.Enums
+@using backend.Services.Interfaces
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model backend.Pages.KorisnikPageModel
+@inject IHttpContextAccessor _httpContextAccessor
+@inject ISessionDataService _sessionDataService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user =  await _sessionDataService.GetSessionDataAsync(_httpContextAccessor.HttpContext.Session);
+    if (user.TipKorisnika != UserCategory.NotLogged)
+        Layout = "_LayoutLogged";
+    else
+        Layout = "_Layout";
+    var rm = new ResourceManager(typeof(backend.Translations.korisnikpage));
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = requestCulture.Culture;
+
+}
+@section Styles
+{
+    <link rel="stylesheet" href="Styles/korisnikpage.css">
+}
+
+@section Scripts
+{
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="Scripts/administrator.js"></script>
+}
+  <div class="mainContainer">
+
+        @Html.AntiForgeryToken()
+           <div class="prviDeo">
+               <div class="sortiranje">
+                    <form method="post" class="sortiranje">
+                           <label>@rm.GetString("lblsort",culture) </label>
+                           <select asp-route-id1="@culture" onchange="this.form.submit()" name="SelectedCalculation">
+                               <option style="display:none" value="value">@rm.GetString("primeni",culture)</option>
+                               <option value="0">@rm.GetString("op1",culture)</option>
+                               <option value="1">@rm.GetString("op2",culture)</option>
+                           </select>
+                       </form>
+                </div>
+           </div>
+
+        
+        <div  class="drugiDeo">
+                <div class="dugmadi">
+                    <form method="post" style="display:flex;">
+
+                        <button class="btnFilter" asp-page-handler="Personalne" asp-route-id1="@culture">@rm.GetString("btnPrikaziPTrenere",culture)<ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon>
+                        </button>
+                    </form>
+                </div>
+                <div class="prikaz">
+
+                   <div class="tabelaPrikaza">
+                   @{
+                       if(Model.btn == 2 && Model.personalniTreners!=null && Model.personalniTreners.Any())
+                        {
+                            foreach (var ptren in Model.personalniTreners)
+                            {
+                                    <div class="elementi">
+                                        <label>@rm.GetString("ime") @ptren.Ime</label>
+                                        <label>@rm.GetString("prezime") @ptren.Prezime</label>
+                                        <label>@rm.GetString("email") @ptren.Email</label>
+                                        <label>@rm.GetString("telefon") @ptren.Telefon</label>
+                                        @if (ptren.Sport != null)
+                                        {
+                                            <label>@rm.GetString("sport") @ptren.Sport.Ime</label>
+                                        }<form method="post">
+                                            <input type="hidden" name="idz" value="@ptren.ID"/>
+                                            <button class="posalji-btn" type="submit" asp-page-handler="Requestpersonalni">@rm.GetString("pos")</button>
+                                        </form>
+                                </div>
+                             }
+                             if (Model.personalniTreners.Count >= 15)
+                                {
+                                <form method="post">
+                                <button class="swm" asp-page-handler="MorePT" asp-route-id1="@culture">More</button>
+                                </form>
+                                }
+                        }
+                    if(Model.btn==-2)
+                    {
+                        <div class="poruka">@rm.GetString("zahtev")</div>
+                    }
+                    if(Model.btn==4)
+                    {
+                        <div class="poruka">@rm.GetString("err4")</div>
+                    }
+                    if(Model.btn==5)
+                    {
+                        <div class="poruka">@rm.GetString("err5")</div>
+                    }
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

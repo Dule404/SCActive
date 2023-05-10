@@ -1,0 +1,32 @@
+@model backend.Models.CultureModel.CultureSwitcherModel
+<div>
+    <form id="culture-switcher">
+        <select name="culture" id="culture-options">
+            @foreach (var culture in Model.SupportedCultures)
+            {
+                if (culture.Name != "sr")
+                {<option value="@culture.Name" selected="@(Model.CurrentUICulture.Name == culture.Name)">EN</option>}
+                    if (culture.Name == "sr")
+                    { <option value="@culture.Name" selected="@(Model.CurrentUICulture.Name == culture.Name)">SR</option>}
+            }
+        </select>
+    </form>
+</div>
+ 
+<style>
+    #culture-options{
+        border: none;
+        text-align: center;
+        list-style: none;
+        margin-left: 1em;
+        background: rgb(9 14 17 / 0.9);
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+    }
+</style>
+<script>
+    document.getElementById("culture-options").addEventListener("change", () => {
+        document.getElementById("culture-switcher").submit();
+    });
+</script>

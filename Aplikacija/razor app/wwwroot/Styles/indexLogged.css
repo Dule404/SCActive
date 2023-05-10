@@ -1,0 +1,236 @@
+
+.sliders {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+.TreneriSwiper {
+  align-self: center;
+  height: 600px;
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.swiper-backface-hidden .swiper-slide {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 5%;
+}
+.trener {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  height: 100%;
+  align-items: center;
+}
+.btnTrener {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  background: #ededed;
+}
+.profilnaFotografija {
+  margin-top: 3%;
+  justify-content: center;
+  border-radius: 100px;
+  object-fit: fill;
+  width: 100px;
+  height: 100px;
+}
+.nameTrenerText {
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+.markTrenerText {
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+}
+.descriptionTrenerText {
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+}
+.ProizvodiSwiper {
+  margin-top: 5%;
+  justify-content: center;
+  height: auto;
+}
+.swiper .swiper-button-prev,
+.swiper .swiper-button-next {
+  color: #1a1a1a;
+}
+.proizvod {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 5% 10% 5% 10%;
+}
+.pocetnaFotografija {
+  object-fit: fill;
+  height: 70%;
+  width: 100%;
+  border-radius: 20px;
+  margin-top: 5px;
+}
+.btnProizvod {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 400px;
+  border: none;
+  border-radius: 20px;
+  background: #ededed;
+}
+.imeProizvoda {
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  height: 15%;
+  margin: auto;
+}
+.cenaProizvoda {
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: orangered;
+  height: 15%;
+  margin: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+.blog-post {
+  display:flex;
+  cursor: pointer;
+  background-color: #fff;
+  box-shadow: 0px 1px 2px rgba(50, 50, 50, 0.1),
+  0px 2px 4px rgba(60, 60, 60, 0.1);
+  border-radius: 8px;
+  padding: 1rem 1rem 3rem 1rem;
+  margin-bottom: 2rem;
+  margin-right: 1rem;
+}
+
+.title {
+    margin: 0 0.5rem;
+    font-size: 2rem;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.profilePicTrainer {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    margin: 0 2rem 0 1rem
+}
+
+.text {
+    color: #555;
+    margin: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction:column;
+}
+
+.user-info img {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
+.user-info span {
+  font-size: 13px;
+  margin-left: 10px;
+}
+
+.loading {
+  opacity: 0;
+  display: flex;
+  align-self: center;
+}
+
+.loading.show {
+  opacity: 1;
+}
+
+.ball {
+  background-color: #777;
+  border-radius: 50%;
+  margin: 5px;
+  height: 10px;
+  width: 10px;
+  animation: jump 0.5s ease-in infinite;
+}
+
+.ball:nth-of-type(2) {
+  animation-delay: 0.1s;
+}
+
+.ball:nth-of-type(3) {
+  animation-delay: 0.2s;
+}
+
+@keyframes jump {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .sliders {
+    flex-direction: column;
+  }
+  .TreneriSwiper,
+  .ProizvodiSwiper {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .profilnaFotografija {
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .profilnaFotografija {
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+  }
+  .nameTrenerText {
+    font-size: 20px;
+  }
+  .markTrenerText {
+    font-size: 18px;
+  }
+  .descriptionTrenerText {
+    display: none;
+  }
+}
+
+
